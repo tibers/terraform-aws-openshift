@@ -1,24 +1,24 @@
 variable "name" {
-  description = "ELB name, e.g cdn"
-  default     = "default"
+  description = "ELB name"
+  default     = "unset"
 }
 
 variable "subnet_ids" {
-  description = "Comma separated list of subnet IDs"
+  description = "List of Subnets"
   type        = "list"
 }
 
 variable "environment" {
   description = "Environment tag, e.g prod"
+  default     = "unset"
 }
 
 variable "port" {
   description = "Instance port"
-  default     = "80"
 }
 
 variable "security_groups" {
-  description = "Comma separated list of security group IDs"
+  description = "List of Security Groups"
   type        = "list"
 }
 
@@ -41,8 +41,6 @@ resource "aws_elb" "main" {
 
   internal                  = true
   cross_zone_load_balancing = true
-//  subnets                   = ["${split(",", var.subnet_ids)}"]
-//  security_groups           = ["${split(",",var.security_groups)}"]
   subnets                   = ["${var.subnet_ids}"]
   security_groups           = ["${var.security_groups}"]
 
