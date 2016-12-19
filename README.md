@@ -1,9 +1,8 @@
 # terralib
-Automated reference architecture library based on proven cloud design patterns using Terraform.
+Automated cloud reference architecture library based on proven design patterns using Terraform
 
----
 
-##### AWS
+#### AWS
 
 | Module | Description |
 | ------ | ----------- |
