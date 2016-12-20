@@ -36,6 +36,11 @@ variable "user_data" {
   default     = "default_user_data"
 }
 
+variable "internal" {
+  description = "ELB type"
+  default     = "true"
+}
+
 /*
 variable "instance_profile" {
   description = "Instance user data"
@@ -57,8 +62,13 @@ variable "desired_capacity" {
   default     = 1
 }
 
-variable "port" {
-  description = "Instance port"
+variable "lb_port" {
+  description = "LB port"
+  default     = 80
+}
+
+variable "instance_port" {
+  description = "instance port"
   default     = 80
 }
 

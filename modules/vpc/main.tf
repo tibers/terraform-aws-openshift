@@ -1,35 +1,3 @@
-variable "cidr" {
-  description = "The CIDR block for the VPC."
-}
-
-variable "external_subnets" {
-  description = "List of external subnets"
-  type        = "list"
-}
-
-variable "internal_subnets" {
-  description = "List of internal subnets"
-  type        = "list"
-}
-
-variable "environment" {
-  description = "Environment tag, e.g prod"
-}
-
-variable "availability_zones" {
-  description = "List of availability zones"
-  type        = "list"
-}
-
-variable "name" {
-  description = "Name tag, e.g stack"
-  default     = "stack"
-}
-
-/**
- * VPC
- */
-
 resource "aws_vpc" "main" {
   cidr_block           = "${var.cidr}"
   enable_dns_support   = true
@@ -144,45 +112,23 @@ resource "aws_route_table_association" "external" {
 }
 
 /**
- * Outputs
+ * Default Security Group declaration similar to AWS defaults
  */
 
-// The VPC ID
-output "id" {
-  value = "${aws_vpc.main.id}"
-}
+resource "aws_default_security_group" "default" {
+  vpc_id = "${aws_vpc.main.id}"
 
-// A comma-separated list of subnet IDs.
-output "external_subnets" {
-  value = ["${aws_subnet.external.*.id}"]
-}
+  ingress {
+    protocol  = -1
+    self      = true
+    from_port = 0
+    to_port   = 0
+  }
 
-// A list of subnet IDs.
-output "internal_subnets" {
-  value = ["${aws_subnet.internal.*.id}"]
-}
-
-// The default VPC security group ID.
-output "security_group" {
-  value = "${aws_vpc.main.default_security_group_id}"
-}
-
-// The list of availability zones of the VPC.
-output "availability_zones" {
-  value = ["${aws_subnet.external.*.availability_zone}"]
-}
-
-// The internal route table ID.
-output "internal_rtb_id" {
-  value = "${join(",", aws_route_table.internal.*.id)}"
-}
-
-// The external route table ID.
-output "external_rtb_id" {
-  value = "${aws_route_table.external.id}"
-}
-
-// The list of EIPs associated with the internal subnets.
-output "internal_nat_ips" {
-  value = ["${aws_eip.nat.*.public_ip}"]
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }

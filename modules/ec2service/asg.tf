@@ -5,9 +5,11 @@ resource "aws_launch_configuration" "alc" {
   key_name      = "${var.instance_key_name}"
   //user_data = "${file("${var.user_data}")}"
   //iam_instance_profile = "${var.instance_profile}"
+  /*
   lifecycle {
     create_before_destroy = true
   }
+  */
   security_groups = ["${var.security_groups}"]
   associate_public_ip_address = "true"
 }
@@ -20,8 +22,9 @@ resource "aws_autoscaling_group" "asg" {
   desired_capacity     = "${var.desired_capacity}"
   load_balancers      = ["${aws_elb.elb.name}"]
 
+/*
   lifecycle {
     create_before_destroy = true
   }
-
+*/
 }
