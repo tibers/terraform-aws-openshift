@@ -17,3 +17,12 @@ output "dns" {
 output "zone_id" {
   value = "${aws_elb.elb.zone_id}"
 }
+
+
+output "aws_security_group_id" {
+  value = "${module.securitygroup.aws_security_group_id}"
+}
+
+output "aws_security_group_name" {
+  value = "${module.securitygroup.aws_security_group_name}"
+}

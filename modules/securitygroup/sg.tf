@@ -1,4 +1,5 @@
 resource "aws_security_group" "terralib" {
+  count         = "${var.count}"
   name = "${var.name}"
   description = "${var.name} is the Terralib generated Security Group"
   vpc_id = "${var.vpc_id}"
@@ -10,6 +11,7 @@ resource "aws_security_group" "terralib" {
 }
 
 resource "aws_security_group_rule" "allow_egress_internet" {
+  count         = "${var.count}"
   type = "egress"
   from_port = 0
   to_port = 0
@@ -19,6 +21,7 @@ resource "aws_security_group_rule" "allow_egress_internet" {
 }
 
 resource "aws_security_group_rule" "allow_ingress_self" {
+  count         = "${var.count}"
   type = "ingress"
   from_port = 0
   to_port = 0

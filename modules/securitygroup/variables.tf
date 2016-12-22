@@ -10,3 +10,8 @@ variable "environment" {
 variable "vpc_id" {
   description = "Vpc id"
 }
+
+variable "count" {
+  description = "Module count parameter used for conditional run"
+  default     = 1
+}

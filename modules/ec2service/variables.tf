@@ -19,6 +19,7 @@ variable "subnet_ids" {
 variable "security_groups" {
   description = "List of Security Groups"
   type        = "list"
+  default     = [""]
 }
 
 variable "instance_type" {
@@ -39,6 +40,11 @@ variable "user_data" {
 variable "internal" {
   description = "ELB type"
   default     = "true"
+}
+
+variable "own_security_group" {
+  description = "Place service into separate security group ?"
+  default     = "false"
 }
 
 /*
