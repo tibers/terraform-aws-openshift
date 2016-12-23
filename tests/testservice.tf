@@ -18,3 +18,11 @@ module "securitygroup" {
 output "testec2service dns name" {
   value = "${module.testec2service.dns}"
 }
+
+output "aws_security_group_id" {
+  value = "${module.securitygroup.aws_security_group_id}"
+}
+
+output "aws_security_group_name" {
+  value = "${module.securitygroup.aws_security_group_name}"
+}

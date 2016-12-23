@@ -11,10 +11,7 @@ resource "aws_launch_configuration" "alc" {
   }
 
   security_groups = ["${var.security_groups}"]
-  //security_groups = ["${module.securitygroup.aws_security_group_id}"]
-  //security_groups = ["${compact(concat(var.security_groups,module.securitygroup.aws_security_group_id))}"]
   associate_public_ip_address = "true"
-  depends_on      = ["module.securitygroup"]
 }
 
 resource "aws_autoscaling_group" "asg" {
