@@ -13,5 +13,5 @@ variable "vpc_id" {
 
 variable "count" {
   description = "Module count parameter used for conditional run"
-  default     = 1
+  default     = 2
 }

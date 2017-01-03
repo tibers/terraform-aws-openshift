@@ -10,7 +10,7 @@ resource "aws_launch_configuration" "alc" {
     create_before_destroy = true
   }
 
-  security_groups = ["${var.security_groups}"]
+  security_groups = ["${element(var.security_groups, 1)}"]
   associate_public_ip_address = "true"
 }
 
