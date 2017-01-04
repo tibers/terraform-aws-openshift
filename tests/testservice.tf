@@ -9,7 +9,6 @@ module "service" {
   instance_key_name = "${aws_key_pair.key.key_name}"
 }
 
-# TODO Define project -> service -> environment structure
 module "securitygroup" {  
   source          = "../modules/service_sgs"
   environment     = "${var.environment}"
