@@ -4,7 +4,7 @@ resource "aws_elb" "elb" {
   internal                  = "${var.internal}"
   cross_zone_load_balancing = true
   subnets                   = ["${var.subnet_ids}"]
-  security_groups           = ["${element(var.security_groups, 0)}"]
+  security_groups           = ["${element(module.securitygroup.aws_security_group_ids, 0)}"]
 
   idle_timeout                = 30
   connection_draining         = true

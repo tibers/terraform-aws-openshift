@@ -3,6 +3,10 @@ variable "name" {
   default     = "stack"
 }
 
+variable "vpc_id" {
+  description = "Vpc id"
+}
+
 variable "environment" {
   description = "Environment tag, e.g prod"
 }
