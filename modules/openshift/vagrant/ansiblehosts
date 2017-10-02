@@ -21,14 +21,14 @@ openshift_deployment_type=origin
 
 # host group for masters
 [masters]
-master.vagrant.test
+master.dev
 
 # host group for etcd
 [etcd]
-master.vagrant.test
+master.dev
 
 # host group for nodes, includes region info
 [nodes]
-master.vagrant.test 
-master.vagrant.test openshift_node_labels="{'region': 'primary', 'zone': 'east'}"
-master.vagrant.test openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
+master.dev
+master.dev openshift_node_labels="{'region': 'primary', 'zone': 'east'}"
+master.dev openshift_node_labels="{'region': 'infra', 'zone': 'default'}"

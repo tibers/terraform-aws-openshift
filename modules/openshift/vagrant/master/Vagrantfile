@@ -63,12 +63,13 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-   #config.landrush.enabled = true
-   #config.landrush.upstream '192.168.1.1'
-   config.vm.hostname = "master.vagrant.test"
+   config.dns.tld = "dev"
+   config.vm.hostname = "master"
+   config.vm.network :private_network, ip: "172.16.16.0"
    config.vm.provision "shell" do |priv|
     priv.inline = <<-SCRIPT
     yum update
+    yum -y install wget git net-tools bind-utils iptables-services bridge-utils bash-completion kexec-tools sos psacct
     yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     sed -i -e "s/^enabled=1/enabled=0/" /etc/yum.repos.d/epel.repo
     yum -y --enablerepo=epel install ansible pyOpenSSL
