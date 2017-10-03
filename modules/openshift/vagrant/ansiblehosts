@@ -9,7 +9,7 @@ openshift_disable_check=memory_availability, disk_availability, docker_storage
 # SSH user, this user should allow ssh based auth without requiring a password
 ansible_user=vagrant
 ansible_connection=local
-#ansible_ssh_conmon_args:  '-o ProxyCommand="ssh -o StrictHostKeyChecking=no -i {key_file} -W %h:%p -q {user}@{host}"
+openshift_master_cluster_public_hostname=master.192.168.50.4.nip.io
 
 # If ansible_ssh_user is not root, ansible_become must be set to true
 ansible_become=true
@@ -21,14 +21,12 @@ openshift_deployment_type=origin
 
 # host group for masters
 [masters]
-master.dev
+master.192.168.50.4.nip.io
 
 # host group for etcd
 [etcd]
-master.dev
+master.192.168.50.4.nip.io
 
 # host group for nodes, includes region info
 [nodes]
-master.dev
-master.dev openshift_node_labels="{'region': 'primary', 'zone': 'east'}"
-master.dev openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
+master.192.168.50.4.nip.io openshift_node_labels="{'region': 'infra','zone': 'default'}" openshift_schedulable=true
