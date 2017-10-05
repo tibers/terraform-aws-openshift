@@ -1,0 +1,8 @@
+#cloud-config
+write_files:
+  - path: /tmp/test.sh
+    content: |
+      #!/bin/bash
+      echo "hallo" > /tmp/bash.out
+runcmd:
+  - bash /tmp/test.sh

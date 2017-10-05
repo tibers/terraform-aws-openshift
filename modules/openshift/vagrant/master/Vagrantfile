@@ -7,8 +7,11 @@ Vagrant.configure("2") do |config|
    config.vm.provider "virtualbox" do |vb|
      vb.memory = "3024"
    end
+   config.vm.provision "file", source: "../user-data", destination: "/tmp/10_vagrant.cfg"
+   config.vm.provision "shell", inline: "yum -y install cloud-init && mv /tmp/10_vagrant.cfg /etc/cloud/cloud.cfg.d/ && echo 'datasource_list: [ None ]' >> /etc/cloud/cloud.cfg"
    config.vm.provision "shell" do |priv|
     priv.inline = <<-SCRIPT
+    cloud-init -d init && cloud-init -d modules && cloud-init modules -m final
     yum update
     yum -y install wget git net-tools bind-utils iptables-services bridge-utils bash-completion kexec-tools sos psacct
     yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
