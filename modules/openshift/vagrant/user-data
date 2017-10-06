@@ -1,8 +1,15 @@
 #cloud-config
 write_files:
-  - path: /tmp/test.sh
+  - path: /tmp/user-data-shell
     content: |
-      #!/bin/bash
-      echo "hallo" > /tmp/bash.out
+      yum update
+      yum -y install wget git net-tools bind-utils iptables-services bridge-utils bash-completion kexec-tools sos psacct
+      yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+      sed -i -e "s/^enabled=1/enabled=0/" /etc/yum.repos.d/epel.repo
+      yum -y --enablerepo=epel install ansible pyOpenSSL
+      yum -y install docker-1.12.6 git
+      sed -i '/OPTIONS=.*/c\OPTIONS="--selinux-enabled --insecure-registry 172.30.0.0/16"' /etc/sysconfig/docker
+      systemctl enable docker
+      systemctl start docker
 runcmd:
-  - bash /tmp/test.sh
+  - bash /tmp/user-data-shell
