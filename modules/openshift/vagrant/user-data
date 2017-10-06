@@ -1,15 +1,31 @@
 #cloud-config
+yum_repos:
+    epel:
+        baseurl: http://download.fedoraproject.org/pub/epel/testing/7/$basearch
+        enabled: false
+        gpgcheck: false
+        name: Extra Packages for Enterprise Linux 7
+packages:
+  - wget
+  - net-tools 
+  - bind-utils 
+  - iptables-services 
+  - bridge-utils 
+  - bash-completion 
+  - kexec-tools 
+  - sos 
+  - psacct 
+  - docker-1.12.6
+  - git
 write_files:
   - path: /tmp/user-data-shell
     content: |
-      yum update
-      yum -y install wget git net-tools bind-utils iptables-services bridge-utils bash-completion kexec-tools sos psacct
-      yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-      sed -i -e "s/^enabled=1/enabled=0/" /etc/yum.repos.d/epel.repo
+      #!/bin/bash
       yum -y --enablerepo=epel install ansible pyOpenSSL
-      yum -y install docker-1.12.6 git
       sed -i '/OPTIONS=.*/c\OPTIONS="--selinux-enabled --insecure-registry 172.30.0.0/16"' /etc/sysconfig/docker
       systemctl enable docker
       systemctl start docker
+      if [ ! -d "openshift-ansible" ]; then git clone https://github.com/openshift/openshift-ansible ; fi
+      ansible-playbook -i /tmp/ansiblehosts ./openshift-ansible/playbooks/byo/config.yml
 runcmd:
   - bash /tmp/user-data-shell
