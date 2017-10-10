@@ -4,7 +4,7 @@ module "service" {
   environment     = "${var.environment}"
   internal        = false
   vpc_id          = "${module.vpc.id}"
-  instance_type   = "t2.medium"
+  instance_type   = "m4.large"
 
   #CoreOS ami for testing purpose
   ami               = "ami-0d063c6b"
