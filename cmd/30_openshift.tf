@@ -4,12 +4,10 @@ module "service" {
   environment     = "${var.environment}"
   internal        = false
   vpc_id          = "${module.vpc.id}"
+  instance_type   = "t2.medium"
 
   #CoreOS ami for testing purpose
-  ami               = "ami-eb3b6198"
+  ami               = "ami-0d063c6b"
   instance_key_name = "${aws_key_pair.key.key_name}"
 }
 
-output "service dns name" {
-  value = "${module.service.dns}"
-}

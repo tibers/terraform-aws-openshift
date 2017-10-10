@@ -4,7 +4,7 @@ resource "aws_launch_configuration" "alc" {
   instance_type = "${var.instance_type}"
   key_name      = "${var.instance_key_name}"
 
-  //user_data = "${file("${var.user_data}")}"
+  user_data = "${template_file.configurator.rendered}"
   //iam_instance_profile = "${var.instance_profile}"
 
   lifecycle {
@@ -20,9 +20,18 @@ resource "aws_autoscaling_group" "asg" {
   max_size             = "${var.max_size}"
   min_size             = "${var.min_size}"
   desired_capacity     = "${var.desired_capacity}"
-  load_balancers       = ["${aws_elb.elb.name}"]
+  //load_balancers       = ["${aws_elb.elb.name}"]
 
   lifecycle {
     create_before_destroy = true
   }
+}
+
+resource "template_file" "configurator" {
+    template = "${file("${var.user_data}")}"
+}
+
+resource "local_file" "foo" {
+    content     = "${template_file.configurator.rendered}"
+    filename = "${var.user_data_rendered}"
 }

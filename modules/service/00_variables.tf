@@ -38,7 +38,12 @@ variable "instance_key_name" {
 
 variable "user_data" {
   description = "Instance user data"
-  default     = "default_user_data"
+  default     = "../modules/openshift/vagrant/user-data.tpl"
+}
+
+variable "user_data_rendered" {
+  description = "Instance user data rendered"
+  default     = "../modules/openshift/vagrant/user-data"
 }
 
 variable "internal" {
