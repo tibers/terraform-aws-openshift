@@ -18,7 +18,6 @@ packages:
   - docker-1.12.6
   - git
   - NetworkManager
-  - chrony
 write_files:
   - path: /tmp/user-data-shell
     content: |
@@ -28,9 +27,8 @@ write_files:
       systemctl enable docker
       systemctl start docker
       systemctl start NetworkManager && systemctl enable NetworkManager
-      systemctl start chronyd && systemctl enable chronyd
       if [ ! -d "openshift-ansible" ]; then git clone https://github.com/openshift/openshift-ansible ; fi
-      ansible-playbook -i /tmp/ansiblehosts ./openshift-ansible/playbooks/byo/config.yml
+      ansible-playbook -i /tmp/ansiblehosts ./openshift-ansible/playbooks/byo/config.yml ; ansible-playbook -i /tmp/ansiblehosts ./openshift-ansible/playbooks/byo/config.yml
   - path: /tmp/ansiblehosts
     content: |
       # Create an OSEv3 group that contains the masters and nodes groups

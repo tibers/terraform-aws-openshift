@@ -4,6 +4,7 @@ resource "aws_launch_configuration" "alc" {
   instance_type = "${var.instance_type}"
   key_name      = "${var.instance_key_name}"
   spot_price    = "0.05"
+  iam_instance_profile = "${aws_iam_instance_profile.provisioner.name}"
 
   user_data = "${template_file.configurator.rendered}"
   //iam_instance_profile = "${var.instance_profile}"

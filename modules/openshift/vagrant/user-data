@@ -28,7 +28,7 @@ write_files:
       systemctl start docker
       systemctl start NetworkManager && systemctl enable NetworkManager
       if [ ! -d "openshift-ansible" ]; then git clone https://github.com/openshift/openshift-ansible ; fi
-      ansible-playbook -i /tmp/ansiblehosts ./openshift-ansible/playbooks/byo/config.yml
+      ansible-playbook -i /tmp/ansiblehosts ./openshift-ansible/playbooks/byo/config.yml ; ansible-playbook -i /tmp/ansiblehosts ./openshift-ansible/playbooks/byo/config.yml
   - path: /tmp/ansiblehosts
     content: |
       # Create an OSEv3 group that contains the masters and nodes groups
@@ -63,6 +63,6 @@ write_files:
 
       # host group for nodes, includes region info
       [nodes]
-      localhost    
+      localhost  openshift_schedulable=true 
 runcmd:
   - bash /tmp/user-data-shell
