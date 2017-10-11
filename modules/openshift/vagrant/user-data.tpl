@@ -65,6 +65,6 @@ write_files:
 
       # host group for nodes, includes region info
       [nodes]
-      localhost    
+      localhost  openshift_schedulable=true 
 runcmd:
   - bash /tmp/user-data-shell
