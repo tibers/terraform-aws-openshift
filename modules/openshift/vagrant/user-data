@@ -17,6 +17,7 @@ packages:
   - psacct 
   - docker-1.12.6
   - git
+  - NetworkManager
 write_files:
   - path: /tmp/user-data-shell
     content: |
@@ -25,6 +26,7 @@ write_files:
       sed -i '/OPTIONS=.*/c\OPTIONS="--selinux-enabled --insecure-registry 172.30.0.0/16"' /etc/sysconfig/docker
       systemctl enable docker
       systemctl start docker
+      systemctl start NetworkManager && systemctl enable NetworkManager
       if [ ! -d "openshift-ansible" ]; then git clone https://github.com/openshift/openshift-ansible ; fi
       ansible-playbook -i /tmp/ansiblehosts ./openshift-ansible/playbooks/byo/config.yml
   - path: /tmp/ansiblehosts
