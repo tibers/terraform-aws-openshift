@@ -35,7 +35,11 @@ resource "aws_iam_role_policy" "provisioner" {
   "Statement": [
     {
       "Action": [
-        "ec2:Describe*"
+                "ec2:Describe*",
+                "route53:ListHostedZones",
+                "route53:ListResourceRecordSets",
+                "rds:Describe*",
+                "elasticache:Describe*"
       ],
       "Effect": "Allow",
       "Resource": "*"

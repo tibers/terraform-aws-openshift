@@ -22,19 +22,21 @@ write_files:
   - path: /tmp/user-data-shell
     content: |
       #!/bin/bash
-      yum -y --enablerepo=epel install ansible pyOpenSSL
-      sed -i '/OPTIONS=.*/c\OPTIONS="--selinux-enabled --insecure-registry 172.30.0.0/16"' /etc/sysconfig/docker
+      yum -y --enablerepo=epel install ansible pyOpenSSL docker-1.12.6
       systemctl enable docker
+      sed -i '/OPTIONS=.*/c\OPTIONS="--selinux-enabled --insecure-registry 172.30.0.0/16"' /etc/sysconfig/docker
       systemctl start docker
       systemctl start NetworkManager && systemctl enable NetworkManager
-      if [ ! -d "openshift-ansible" ]; then git clone https://github.com/openshift/openshift-ansible ; fi
-      ansible-playbook -i /tmp/ansiblehosts ./openshift-ansible/playbooks/byo/config.yml ; ansible-playbook -i /tmp/ansiblehosts ./openshift-ansible/playbooks/byo/config.yml
-  - path: /tmp/ansiblehosts
+      if [ ! -d "openshift-ansible" ]
+        then su - -c "git clone https://github.com/openshift/openshift-ansible && ansible-playbook -i /tmp/inventory ./openshift-ansible/playbooks/byo/config.yml"
+      fi
+  - path: /tmp/inventory/ansiblehosts
     content: |
       # Create an OSEv3 group that contains the masters and nodes groups
       [OSEv3:children]
       masters
       nodes
+      etcd
 
       # Set variables common for all OSEv3 hosts
       [OSEv3:vars]
@@ -42,27 +44,29 @@ write_files:
       # SSH user, this user should allow ssh based auth without requiring a password
       ansible_user=root
       ansible_connection=local
-      openshift_master_cluster_hostname=localhost
-      openshift_master_cluster_public_hostname=localhost
 
       # If ansible_ssh_user is not root, ansible_become must be set to true
       ansible_become=false
 
       openshift_deployment_type=origin
 
-      # uncomment the following to enable htpasswd authentication; defaults to DenyAllPasswordIdentityProvider
-      #openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
+      [eu-west-1]
 
       # host group for masters
-      [masters]
-      localhost
+      [masters:children]
+      eu-west-1
 
       # host group for etcd
-      [etcd]
-      localhost
+      [etcd:children]
+      eu-west-1
 
       # host group for nodes, includes region info
-      [nodes]
-      localhost  openshift_schedulable=true 
+      [nodes:children]
+      eu-west-1
+
+      [nodes:vars]
+      openshift_schedulable=true 
 runcmd:
+  - wget -o /tmp/inventory/ec2.py https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py 
+  - chmod +x /tmp/inventory/ec2.py
   - bash /tmp/user-data-shell
