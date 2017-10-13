@@ -50,19 +50,19 @@ write_files:
 
       openshift_deployment_type=origin
 
-      [eu-west-1]
+      [tag_aws_autoscaling_groupName_${master_asg_name}]
 
       # host group for masters
       [masters:children]
-      tag_aws_autoscaling_groupName_tf_asg_${master_asg_name}
+      tag_aws_autoscaling_groupName_${master_asg_name}
 
       # host group for etcd
       [etcd:children]
-      tag_aws_autoscaling_groupName_tf_asg_${master_asg_name}
+      tag_aws_autoscaling_groupName_${master_asg_name}
 
       # host group for nodes, includes region info
       [nodes:children]
-      tag_aws_autoscaling_groupName_tf_asg_${master_asg_name}
+      tag_aws_autoscaling_groupName_${master_asg_name}
 
       [nodes:vars]
       openshift_schedulable=true

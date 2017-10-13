@@ -17,7 +17,7 @@ resource "aws_launch_configuration" "alc" {
 
 resource "aws_autoscaling_group" "asg" {
   launch_configuration = "${aws_launch_configuration.alc.name}"
-  name                 = "${var.environment}-${var.name}"
+  name                 = "${var.environment}_${var.name}"
   vpc_zone_identifier  = ["${var.subnet_ids}"]
   max_size             = "${var.max_size}"
   min_size             = "${var.min_size}"
@@ -32,7 +32,7 @@ resource "aws_autoscaling_group" "asg" {
 data "template_file" "configurator" {
     template = "${file("${var.user_data}")}"
     vars {
-    master_asg_name = "${var.environment}-${var.name}"
+    master_asg_name = "${var.environment}_${var.name}"
   }
 }
 
