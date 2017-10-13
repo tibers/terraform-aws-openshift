@@ -1,7 +1,8 @@
-module "service" {
+module "master" {
   source          = "../modules/service"
   subnet_ids      = ["${module.vpc.external_subnets}"]
   environment     = "${var.environment}"
+  name            = "master"
   internal        = false
   vpc_id          = "${module.vpc.id}"
   instance_type   = "m4.large"

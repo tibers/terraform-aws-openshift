@@ -54,19 +54,21 @@ write_files:
 
       # host group for masters
       [masters:children]
-      eu-west-1
+      tag_aws_autoscaling_groupName_tf_asg_${master_asg_name}
 
       # host group for etcd
       [etcd:children]
-      eu-west-1
+      tag_aws_autoscaling_groupName_tf_asg_${master_asg_name}
 
       # host group for nodes, includes region info
       [nodes:children]
-      eu-west-1
+      tag_aws_autoscaling_groupName_tf_asg_${master_asg_name}
 
       [nodes:vars]
-      openshift_schedulable=true 
+      openshift_schedulable=true
+bootcmd:
+  - mkdir /tmp/inventory
 runcmd:
-  - wget -o /tmp/inventory/ec2.py https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py 
+  - wget -O /tmp/inventory/ec2.py https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py 
   - chmod +x /tmp/inventory/ec2.py
   - bash /tmp/user-data-shell

@@ -1,12 +1,11 @@
 resource "aws_launch_configuration" "alc" {
-  name_prefix   = "${var.name}"
   image_id      = "${var.ami}"
   instance_type = "${var.instance_type}"
   key_name      = "${var.instance_key_name}"
   spot_price    = "0.05"
   iam_instance_profile = "${aws_iam_instance_profile.provisioner.name}"
 
-  user_data = "${template_file.configurator.rendered}"
+  user_data = "${data.template_file.configurator.rendered}"
   //iam_instance_profile = "${var.instance_profile}"
 
   lifecycle {
@@ -18,6 +17,7 @@ resource "aws_launch_configuration" "alc" {
 
 resource "aws_autoscaling_group" "asg" {
   launch_configuration = "${aws_launch_configuration.alc.name}"
+  name                 = "${var.environment}-${var.name}"
   vpc_zone_identifier  = ["${var.subnet_ids}"]
   max_size             = "${var.max_size}"
   min_size             = "${var.min_size}"
@@ -29,11 +29,14 @@ resource "aws_autoscaling_group" "asg" {
   }
 }
 
-resource "template_file" "configurator" {
+data "template_file" "configurator" {
     template = "${file("${var.user_data}")}"
+    vars {
+    master_asg_name = "${var.environment}-${var.name}"
+  }
 }
 
 resource "local_file" "foo" {
-    content     = "${template_file.configurator.rendered}"
+    content     = "${data.template_file.configurator.rendered}"
     filename = "${var.user_data_rendered}"
 }
