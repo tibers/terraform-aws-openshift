@@ -82,7 +82,6 @@ write_files:
   - path: /tmp/user-data-shell
     content: |
       #!/bin/bash
-      sudo su -
       yum -y --enablerepo=epel install ansible pyOpenSSL docker-1.12.6
       sed -i '/OPTIONS=.*/c\OPTIONS="--selinux-enabled --insecure-registry 172.30.0.0/16"' /etc/sysconfig/docker
       systemctl start docker
@@ -106,6 +105,7 @@ write_files:
       ansible_user=root
       ansible_connection=local
       openshift_clock_enabled=true
+      openshift_docker_insecure_registries=['172.30.0.0/16']
 
       # If ansible_ssh_user is not root, ansible_become must be set to true
       ansible_become=false
@@ -129,6 +129,8 @@ write_files:
       [nodes:children]
       tag_aws_autoscaling_groupName_${master_asg_name}
 
+      [nodes:vars]
+      openshift_node_labels="{'region': 'infra'}"
 bootcmd:
   - mkdir /tmp/inventory
 runcmd:
