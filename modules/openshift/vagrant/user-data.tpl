@@ -87,6 +87,7 @@ write_files:
       systemctl start docker
       systemctl enable docker
       systemctl start NetworkManager && systemctl enable NetworkManager
+      echo "Enviroment:" && env
       if [ ! -d "openshift-ansible" ]
         then git clone https://github.com/openshift/openshift-ansible && EC2_INI_PATH=/tmp/inventory/ec2.ini ansible-playbook -i /tmp/inventory ./openshift-ansible/playbooks/byo/config.yml
       fi
@@ -136,4 +137,4 @@ bootcmd:
 runcmd:
   - wget -O /tmp/inventory/ec2.py https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py 
   - chmod +x /tmp/inventory/ec2.py
-  - bash -l /tmp/user-data-shell
+  - bash -li /tmp/user-data-shell
