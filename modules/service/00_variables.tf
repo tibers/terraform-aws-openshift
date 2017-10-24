@@ -56,12 +56,6 @@ variable "own_security_group" {
   default     = "false"
 }
 
-/*
-variable "instance_profile" {
-  description = "Instance user data"
-}
-*/
-
 variable "max_size" {
   description = "ASG max size"
   default     = 1
