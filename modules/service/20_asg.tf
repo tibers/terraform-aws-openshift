@@ -3,9 +3,8 @@ resource "aws_launch_configuration" "alc" {
   instance_type = "${var.instance_type}"
   key_name      = "${var.instance_key_name}"
   spot_price    = "0.05"
-  iam_instance_profile = "${aws_iam_instance_profile.provisioner.name}"
 
-  user_data = "${data.template_file.configurator.rendered}"
+  user_data = "${var.user_data}"
   iam_instance_profile = "${var.instance_profile}"
 
   lifecycle {
@@ -29,14 +28,3 @@ resource "aws_autoscaling_group" "asg" {
   }
 }
 
-data "template_file" "configurator" {
-    template = "${file("${var.user_data}")}"
-    vars {
-    master_asg_name = "${var.environment}_${var.name}"
-  }
-}
-
-resource "local_file" "foo" {
-    content     = "${data.template_file.configurator.rendered}"
-    filename = "${var.user_data_rendered}"
-}

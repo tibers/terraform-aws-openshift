@@ -24,12 +24,6 @@ variable "subnet_ids" {
   type        = "list"
 }
 
-variable "security_groups" {
-  description = "List of Security Groups"
-  type        = "list"
-  default     = [""]
-}
-
 variable "instance_type" {
   description = "Instance type"
   default     = "t2.nano"
@@ -41,14 +35,9 @@ variable "instance_key_name" {
 }
 
 variable "user_data" {
-  description = "Instance user data"
-  default     = "../modules/openshift/vagrant/user-data.tpl"
 }
 
-variable "user_data_rendered" {
-  description = "Instance user data rendered"
-  default     = "../modules/openshift/vagrant/user-data"
-}
+
 
 variable "internal" {
   description = "ELB type"
