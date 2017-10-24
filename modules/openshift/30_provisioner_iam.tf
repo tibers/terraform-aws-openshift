@@ -65,7 +65,7 @@ resource "aws_iam_role_policy" "provisioner" {
           "ssm:DeleteParameter"
       ],
       "Resource": [
-        "arn:aws:ssm:*:*:parameter/os-*"
+        "arn:aws:ssm:*:*:*"
       ]
     },
     {

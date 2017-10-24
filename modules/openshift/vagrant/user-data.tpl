@@ -113,22 +113,22 @@ write_files:
 
       openshift_deployment_type=origin
 
-      [tag_aws_autoscaling_groupName_${master_asg_name}]
+      [tag_aws_autoscaling_groupName_${provisioner}]
 
       # host group for masters
       [masters:children]
-      tag_aws_autoscaling_groupName_${master_asg_name}
+      tag_aws_autoscaling_groupName_${provisioner}
 
       [masters:vars]
       openshift_schedulable=true
 
       # host group for etcd
       [etcd:children]
-      tag_aws_autoscaling_groupName_${master_asg_name}
+      tag_aws_autoscaling_groupName_${provisioner}
 
       # host group for nodes, includes region info
       [nodes:children]
-      tag_aws_autoscaling_groupName_${master_asg_name}
+      tag_aws_autoscaling_groupName_${provisioner}
 
       [nodes:vars]
       openshift_node_labels="{'region': 'infra'}"
@@ -138,4 +138,5 @@ runcmd:
   - wget -O /tmp/inventory/ec2.py https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py 
   - wget -O /usr/bin/chamber https://github.com/segmentio/chamber/releases/download/v1.9.0/chamber-v1.9.0-linux-amd64 && chmod +x /usr/bin/chamber
   - chmod +x /tmp/inventory/ec2.py
+  - ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa&& cat /root/.ssh/id_rsa.pub|chamber write os-${environment} provisioner_id_rsa_pub -
   - bash -li /tmp/user-data-shell

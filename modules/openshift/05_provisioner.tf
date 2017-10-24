@@ -16,7 +16,8 @@ module "provisioner" {
 data "template_file" "provisioner" {
     template = "${file("${var.provisioner_user_data}")}"
     vars {
-        master_asg_name = "${var.environment}_${var.provisioner_name}"
+        provisioner = "${var.environment}_${var.provisioner_name}"
+        environment = "${var.environment}"
     }
 }
 
