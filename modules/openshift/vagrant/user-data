@@ -136,5 +136,6 @@ bootcmd:
   - mkdir /tmp/inventory
 runcmd:
   - wget -O /tmp/inventory/ec2.py https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py 
+  - wget -O /usr/bin/chamber https://github.com/segmentio/chamber/releases/download/v1.9.0/chamber-v1.9.0-linux-amd64 && chmod +x /usr/bin/chamber
   - chmod +x /tmp/inventory/ec2.py
   - bash -li /tmp/user-data-shell

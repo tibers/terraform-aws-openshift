@@ -59,11 +59,13 @@ resource "aws_iam_role_policy" "provisioner" {
       "Sid": "",
       "Effect": "Allow",
       "Action": [
-        "ssm:GetParameters",
-        "ssm:DescribeParameters"
+          "ssm:DescribeParameters",
+          "ssm:PutParameter",
+          "ssm:GetParameters",
+          "ssm:DeleteParameter"
       ],
       "Resource": [
-        "*"
+        "arn:aws:ssm:*:*:parameter/os-*"
       ]
     },
     {
@@ -73,6 +75,7 @@ resource "aws_iam_role_policy" "provisioner" {
         "kms:ListKeys",
         "kms:ListAliases",
         "kms:Describe*",
+        "kms:Encrypt",
         "kms:Decrypt"
       ],
       "Resource": "arn:aws:kms:*:*:key/${aws_kms_key.parameter_store.id}"
