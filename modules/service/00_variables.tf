@@ -15,6 +15,10 @@ variable "ami" {
   description = "AMI for the instance"
 }
 
+variable "instance_profile" {
+  description = "Instance profile for the service"
+}
+
 variable "subnet_ids" {
   description = "List of Subnets"
   type        = "list"

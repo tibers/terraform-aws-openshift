@@ -6,7 +6,7 @@ resource "aws_launch_configuration" "alc" {
   iam_instance_profile = "${aws_iam_instance_profile.provisioner.name}"
 
   user_data = "${data.template_file.configurator.rendered}"
-  //iam_instance_profile = "${var.instance_profile}"
+  iam_instance_profile = "${var.instance_profile}"
 
   lifecycle {
     create_before_destroy = true

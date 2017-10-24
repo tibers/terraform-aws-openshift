@@ -6,6 +6,7 @@ module "provisioner" {
   internal      = false
   vpc_id        = "${var.vpc_id}"
   instance_type = "m4.large"
+  instance_profile = "${aws_iam_instance_profile.provisioner.name}"
 
   #CoreOS ami for testing purpose
   ami               = "ami-0d063c6b"
