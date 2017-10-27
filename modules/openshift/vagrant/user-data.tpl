@@ -79,6 +79,15 @@ write_files:
 
       stack_filters = False
       [credentials]
+  - path: /root/.ssh/config
+    content: |
+      Host *
+        user                       centos
+        StrictHostKeyChecking      no
+        ProxyCommand               none
+        CheckHostIP                no
+        ForwardAgent               yes
+        IdentityFile               /root/.ssh/id_rsa
   - path: /tmp/user-data-shell
     content: |
       #!/bin/bash
@@ -103,13 +112,12 @@ write_files:
       [OSEv3:vars]
       openshift_disable_check=memory_availability, disk_availability, docker_storage
       # SSH user, this user should allow ssh based auth without requiring a password
-      ansible_user=root
-      ansible_connection=local
+      ansible_user=centos
       openshift_clock_enabled=true
       openshift_docker_insecure_registries=['172.30.0.0/16']
 
       # If ansible_ssh_user is not root, ansible_become must be set to true
-      ansible_become=false
+      ansible_become=true
 
       openshift_deployment_type=origin
 
@@ -138,5 +146,6 @@ runcmd:
   - wget -O /tmp/inventory/ec2.py https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py 
   - wget -O /usr/bin/chamber https://github.com/segmentio/chamber/releases/download/v1.9.0/chamber-v1.9.0-linux-amd64 && chmod +x /usr/bin/chamber
   - chmod +x /tmp/inventory/ec2.py
-  - ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa&& cat /root/.ssh/id_rsa.pub|chamber write os-${environment} provisioner_id_rsa_pub -
+  - ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa&& cat /root/.ssh/id_rsa.pub|chamber write ${environment} provisioner_id_rsa_pub -
+  - chamber read -q ${environment} provisioner_id_rsa_pub >> /home/centos/.ssh/authorized_keys
   - bash -li /tmp/user-data-shell
