@@ -3,7 +3,6 @@ module "provisioner" {
   subnet_ids    = "${var.subnet_ids}"
   environment   = "${var.environment}"
   name          = "${var.provisioner_name}"
-  internal      = false
   vpc_id        = "${var.vpc_id}"
   instance_type = "${var.provisioner_instance_type}"
   instance_profile = "${aws_iam_instance_profile.provisioner.name}"
