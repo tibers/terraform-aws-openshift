@@ -21,7 +21,7 @@ resource "aws_autoscaling_group" "asg" {
   max_size             = "${var.max_size}"
   min_size             = "${var.min_size}"
   desired_capacity     = "${var.desired_capacity}"
-  //load_balancers       = ["${aws_elb.elb.name}"]
+  target_group_arns       = ["${var.target_group_arns}"]
 
   lifecycle {
     create_before_destroy = true

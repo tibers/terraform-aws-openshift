@@ -62,6 +62,11 @@ variable "lb_port" {
   default     = 80
 }
 
+variable "target_group_arns" {
+  description = "Application Load Balancers to attach the ASG"
+  type = "list"
+ }
+
 variable "instance_port" {
   description = "instance port"
   default     = 80
