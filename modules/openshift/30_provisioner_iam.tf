@@ -5,7 +5,7 @@ resource "aws_kms_key" "parameter_store" {
 }
 
 resource "aws_iam_instance_profile" "provisioner" {
-  name  = "provisioner"
+  name = "provisioner"
   role = "${aws_iam_role.provisioner.name}"
 }
 

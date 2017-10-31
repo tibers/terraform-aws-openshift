@@ -24,15 +24,15 @@ variable "cidr" {
 
 variable "internal_subnets" {
   description = "a list of CIDRs for internal subnets in your VPC"
-  default = ["10.50.0.0/23","10.50.2.0/23"]
+  default     = ["10.50.0.0/23", "10.50.2.0/23"]
 }
 
 variable "external_subnets" {
   description = "a list of CIDRs for external subnets in your VPC"
-  default = ["10.50.4.0/23" , "10.50.6.0/23"]
+  default     = ["10.50.4.0/23", "10.50.6.0/23"]
 }
 
 variable "availability_zones" {
   description = "a comma-separated list of availability zones"
-  default = ["eu-west-1a", "eu-west-1b"]
+  default     = ["eu-west-1a", "eu-west-1b"]
 }

@@ -34,12 +34,10 @@ variable "instance_key_name" {
   default     = "default_instance_key"
 }
 
-variable "user_data" {
-}
+variable "user_data" {}
 
-variable "own_security_group" {
-  description = "Place service into separate security group ?"
-  default     = "false"
+variable "security_groups" {
+  type = "list"
 }
 
 variable "max_size" {
@@ -62,10 +60,10 @@ variable "lb_port" {
   default     = 80
 }
 
-variable "target_group_arns" {
-  description = "Application Load Balancers to attach the ASG"
-  type = "list"
- }
+variable "load_balancers" {
+  description = "Load Balancers to attach the ASG"
+  type        = "list"
+}
 
 variable "instance_port" {
   description = "instance port"
@@ -82,6 +80,4 @@ variable "protocol" {
   default     = "HTTP"
 }
 
-variable "management_net" {
-  
- }
+variable "management_net" {}

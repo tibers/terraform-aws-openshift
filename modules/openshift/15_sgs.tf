@@ -1,10 +1,13 @@
 resource "aws_security_group" "default" {
-  name        = "${var.environment}_${var.name}"
-  description = "${var.environment}_${var.name}"
+  description = "${var.environment}"
   vpc_id      = "${var.vpc_id}"
 
   tags {
-    Name        = "${var.environment}_${var.name}"
+    Name = "${var.environment}"
+  }
+  
+  lifecycle {
+      create_before_destroy = true
   }
 }
 

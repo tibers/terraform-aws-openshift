@@ -1,27 +1,29 @@
-resource "aws_alb" "master" {
-  name            = "master"
-  internal        = false
-  security_groups = ["${module.provisioner.sg_id}"]
+resource "aws_elb" "master" {
+  internal        = "false"
   subnets         = ["${var.subnet_ids}"]
+  security_groups = ["${aws_security_group.default.id}"]
+
+  listener {
+    instance_port     = 8443
+    instance_protocol = "tcp"
+    lb_port           = 8443
+    lb_protocol       = "tcp"
+  }
+
+  health_check {
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    timeout             = 3
+    target              = "TCP:8443"
+    interval            = 30
+  }
+
+  cross_zone_load_balancing = true
+
   tags {
-    Environment = "${var.environment}-master"
+    Name = "${var.environment}-master"
   }
-}
-
-resource "aws_alb_target_group" "master" {
-  name     = "master"
-  port     = 8443
-  protocol = "HTTPS"
-  vpc_id   = "${var.vpc_id}"
-}
-
-resource "aws_alb_listener" "master" {
-  load_balancer_arn = "${aws_alb.master.arn}"
-  port              = "80"
-  protocol          = "HTTP"
-
-  default_action {
-    target_group_arn = "${aws_alb_target_group.master.arn}"
-    type             = "forward"
-  }
+    lifecycle {
+      create_before_destroy = true
+    }
 }

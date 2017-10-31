@@ -16,25 +16,28 @@ variable "instance_key_name" {
   default     = "default_instance_key"
 }
 
-variable "management_net" {
-}
+variable "management_net" {}
 
 variable "provisioner_ami" {
-   default =   "ami-0d063c6b"
+  default = "ami-0d063c6b"
 }
 
 variable "provisioner_instance_type" {
-   default =   "m4.large"
+  default = "m4.large"
 }
 
 variable "provisioner_user_data" {
-  default     = "../modules/openshift/vagrant/user-data.tpl"
+  default = "../modules/openshift/vagrant/user-data.tpl"
 }
 
 variable "provisioner_user_data_rendered" {
-  default     = "../modules/openshift/vagrant/user-data"
+  default = "../modules/openshift/vagrant/user-data"
 }
 
-variable "provisioner_name" { 
-  default     = "provisioner"
+variable "provisioner_name" {
+  default = "provisioner"
+}
+
+variable "public_domain" {
+  description = "Public domain name used as parent for all environments"
 }

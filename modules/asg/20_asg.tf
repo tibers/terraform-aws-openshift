@@ -4,13 +4,14 @@ resource "aws_launch_configuration" "alc" {
   key_name      = "${var.instance_key_name}"
   spot_price    = "0.05"
 
-  user_data = "${var.user_data}"
+  user_data            = "${var.user_data}"
   iam_instance_profile = "${var.instance_profile}"
 
   lifecycle {
     create_before_destroy = true
   }
-  security_groups             = ["${aws_security_group.default.id}"]
+
+  security_groups             = ["${var.security_groups}"]
   associate_public_ip_address = "true"
 }
 
@@ -21,10 +22,9 @@ resource "aws_autoscaling_group" "asg" {
   max_size             = "${var.max_size}"
   min_size             = "${var.min_size}"
   desired_capacity     = "${var.desired_capacity}"
-  target_group_arns       = ["${var.target_group_arns}"]
+  load_balancers    = ["${var.load_balancers}"]
 
   lifecycle {
     create_before_destroy = true
   }
 }
-
