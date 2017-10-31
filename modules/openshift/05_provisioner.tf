@@ -19,6 +19,7 @@ data "template_file" "provisioner" {
     vars {
         provisioner = "${var.environment}_${var.provisioner_name}"
         environment = "${var.environment}"
+        master_lb = "${aws_alb.master.dns_name}"
     }
 }
 
