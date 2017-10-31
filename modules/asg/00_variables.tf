@@ -81,3 +81,7 @@ variable "protocol" {
   description = "Protocol to use, HTTP or TCP"
   default     = "HTTP"
 }
+
+variable "management_net" {
+  
+ }

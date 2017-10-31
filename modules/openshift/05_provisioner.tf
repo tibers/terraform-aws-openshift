@@ -10,6 +10,7 @@ module "provisioner" {
   instance_key_name = "${var.instance_key_name}"
   user_data     = "${data.template_file.provisioner.rendered}"
   target_group_arns =         ["${aws_alb_target_group.master.arn}"]
+  management_net    = "${var.management_net}"
 }
 
 

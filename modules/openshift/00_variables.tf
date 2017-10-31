@@ -16,6 +16,9 @@ variable "instance_key_name" {
   default     = "default_instance_key"
 }
 
+variable "management_net" {
+}
+
 variable "provisioner_ami" {
    default =   "ami-0d063c6b"
 }

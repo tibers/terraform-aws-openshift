@@ -4,4 +4,5 @@ module "openshift" {
   environment   = "${var.environment}"
   vpc_id        = "${module.vpc.id}"
   instance_key_name = "${aws_key_pair.key.key_name}"
+  management_net  = "${chomp(data.http.workstationip.body)}/32"
 }
