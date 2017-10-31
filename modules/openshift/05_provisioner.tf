@@ -1,5 +1,5 @@
 module "provisioner" {
-  source        = "../service"
+  source        = "../asg"
   subnet_ids    = "${var.subnet_ids}"
   environment   = "${var.environment}"
   name          = "${var.provisioner_name}"

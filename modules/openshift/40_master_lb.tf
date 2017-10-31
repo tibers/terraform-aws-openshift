@@ -1,7 +1,7 @@
 resource "aws_alb" "master" {
   name            = "master"
   internal        = false
-  security_groups = ["${module.provisioner.sg_ids}"]
+  security_groups = ["${module.provisioner.sg_id}"]
   subnets         = ["${var.subnet_ids}"]
 
   tags {
