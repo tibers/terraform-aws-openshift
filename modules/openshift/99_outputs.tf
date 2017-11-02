@@ -1,4 +1,4 @@
 // Master external API endpoint
-output "openshift_public_hostname" {
+output "master_public_endpoint" {
   value = "https://public.${var.environment}.${var.public_domain}:8443"
 }
