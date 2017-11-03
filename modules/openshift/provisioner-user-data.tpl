@@ -16,7 +16,6 @@ packages:
   - sos 
   - psacct 
   - git
-  - NetworkManager
 write_files:
   - path: /tmp/inventory/ec2.ini
     content: |
@@ -91,11 +90,7 @@ write_files:
   - path: /tmp/user-data-shell
     content: |
       #!/bin/bash
-      yum -y --enablerepo=epel install ansible pyOpenSSL docker-1.12.6
-      sed -i '/OPTIONS=.*/c\OPTIONS="--selinux-enabled --insecure-registry 172.30.0.0/16"' /etc/sysconfig/docker
-      systemctl start docker
-      systemctl enable docker
-      systemctl start NetworkManager && systemctl enable NetworkManager
+      yum -y --enablerepo=epel install ansible pyOpenSSL
       echo "Enviroment:" && env
       if [ ! -d "openshift-ansible" ]
         then git clone https://github.com/openshift/openshift-ansible && EC2_INI_PATH=/tmp/inventory/ec2.ini ansible-playbook -i /tmp/inventory ./openshift-ansible/playbooks/byo/config.yml
@@ -123,22 +118,22 @@ write_files:
 
       openshift_deployment_type=origin
 
-      [tag_aws_autoscaling_groupName_${provisioner}]
+      [tag_aws_autoscaling_groupName_${master}]
 
       # host group for masters
       [masters:children]
-      tag_aws_autoscaling_groupName_${provisioner}
+      tag_aws_autoscaling_groupName_${master}
 
       [masters:vars]
       openshift_schedulable=true
 
       # host group for etcd
       [etcd:children]
-      tag_aws_autoscaling_groupName_${provisioner}
+      tag_aws_autoscaling_groupName_${master}
 
       # host group for nodes, includes region info
       [nodes:children]
-      tag_aws_autoscaling_groupName_${provisioner}
+      tag_aws_autoscaling_groupName_${master}
 
       [nodes:vars]
       openshift_node_labels="{'region': 'infra'}"

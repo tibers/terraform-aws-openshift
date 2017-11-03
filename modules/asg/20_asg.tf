@@ -2,7 +2,7 @@ resource "aws_launch_configuration" "alc" {
   image_id      = "${var.ami}"
   instance_type = "${var.instance_type}"
   key_name      = "${var.instance_key_name}"
-  spot_price    = "0.05"
+  spot_price    = "0.07"
 
   user_data            = "${var.user_data}"
   iam_instance_profile = "${var.instance_profile}"
@@ -17,7 +17,6 @@ resource "aws_launch_configuration" "alc" {
 
 resource "aws_autoscaling_group" "asg" {
   launch_configuration = "${aws_launch_configuration.alc.name}"
-  name                 = "${var.environment}_${var.name}"
   vpc_zone_identifier  = ["${var.subnet_ids}"]
   max_size             = "${var.max_size}"
   min_size             = "${var.min_size}"
