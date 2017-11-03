@@ -144,5 +144,4 @@ runcmd:
   - wget -O /usr/bin/chamber https://github.com/segmentio/chamber/releases/download/v1.9.0/chamber-v1.9.0-linux-amd64 && chmod +x /usr/bin/chamber
   - chmod +x /tmp/inventory/ec2.py
   - ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa&& cat /root/.ssh/id_rsa.pub|chamber write ${environment} provisioner_id_rsa_pub -
-  - chamber read -q ${environment} provisioner_id_rsa_pub >> /home/centos/.ssh/authorized_keys
   - bash -li /tmp/user-data-shell

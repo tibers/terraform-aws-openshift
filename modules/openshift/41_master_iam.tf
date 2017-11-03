@@ -1,4 +1,3 @@
-
 resource "aws_iam_instance_profile" "master" {
   role = "${aws_iam_role.master.name}"
 }

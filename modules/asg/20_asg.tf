@@ -21,9 +21,22 @@ resource "aws_autoscaling_group" "asg" {
   max_size             = "${var.max_size}"
   min_size             = "${var.min_size}"
   desired_capacity     = "${var.desired_capacity}"
-  load_balancers    = ["${var.load_balancers}"]
+  load_balancers       = ["${var.load_balancers}"]
 
   lifecycle {
     create_before_destroy = true
   }
+
+  tags = [
+    {
+      key                 = "Name"
+      value               = "${var.name}"
+      propagate_at_launch = true
+    },
+    {
+      key                 = "Environment"
+      value               = "${var.environment}"
+      propagate_at_launch = true
+    },
+  ]
 }

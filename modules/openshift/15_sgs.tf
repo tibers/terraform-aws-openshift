@@ -5,9 +5,9 @@ resource "aws_security_group" "default" {
   tags {
     Name = "${var.environment}"
   }
-  
+
   lifecycle {
-      create_before_destroy = true
+    create_before_destroy = true
   }
 }
 

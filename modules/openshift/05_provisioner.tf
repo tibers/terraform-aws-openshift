@@ -18,8 +18,8 @@ data "template_file" "provisioner" {
   template = "${file("${var.provisioner_user_data}")}"
 
   vars {
-    master = "${module.master.name}"
-    environment = "${var.environment}"
+    master        = "${module.master.name}"
+    environment   = "${var.environment}"
     public_domain = "${var.public_domain}"
   }
 }

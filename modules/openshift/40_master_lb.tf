@@ -37,7 +37,8 @@ resource "aws_elb" "master" {
   tags {
     Name = "${var.environment}-master"
   }
-    lifecycle {
-      create_before_destroy = true
-    }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
