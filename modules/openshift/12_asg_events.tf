@@ -48,3 +48,75 @@ resource "aws_sqs_queue_policy" "scaling" {
 }
 POLICY
 }
+
+resource "aws_cloudwatch_event_rule" "openshift_scaleout" {
+  name = "${var.environment}"
+  description = "Scsale out"
+
+  event_pattern = <<PATTERN
+{
+  "source": [
+    "aws.autoscaling"
+  ],
+  "detail-type": [
+    "EC2 Instance Launch Successful"
+  ],
+  "detail": {
+    "AutoScalingGroupName": [
+      "${module.master.name}"
+    ]
+  }
+}
+
+PATTERN
+}
+
+resource "aws_cloudwatch_event_target" "provisioner" {
+  rule      = "${aws_cloudwatch_event_rule.openshift_scaleout.name}"
+  arn       = "${aws_ssm_document.openshift.arn}"
+  role_arn  = "${aws_iam_role.events.arn}"
+
+  run_command_targets {
+    key = "tag:Name"
+    values = ["provisioner"]
+  }
+}
+
+resource "aws_iam_role" "events" {
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "events.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "events" {
+  role = "${aws_iam_role.events.id}"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}

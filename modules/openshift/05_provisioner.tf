@@ -21,5 +21,36 @@ data "template_file" "provisioner" {
     master        = "${replace("${module.master.name}", "-", "_")}"
     environment   = "${var.environment}"
     public_domain = "${var.public_domain}"
+    region        = "${data.aws_region.current.name}"
+    log_group     = "${aws_cloudwatch_log_group.openshift.name}"
   }
+}
+
+data "aws_region" "current" {
+  current = true
+}
+
+resource "aws_ssm_document" "openshift" {
+  name = "${var.environment}_openshift"
+  document_type = "Command"
+
+  content = <<DOC
+  {
+    "schemaVersion": "2.0",
+    "description": "Run cluster provision",
+    "parameters": {
+
+    },
+    "runtimeConfig": {
+      "aws:runShellScript": {
+        "properties": [
+          {
+            "id": "0.aws:runShellScript",
+            "runCommand": ["bash -c 'EC2_INI_PATH=/tmp/inventory/ec2.ini ansible-playbook -i /tmp/inventory /openshift-ansible/playbooks/byo/config.yml'"]
+          }
+        ]
+      }
+    }
+  }
+DOC
 }
