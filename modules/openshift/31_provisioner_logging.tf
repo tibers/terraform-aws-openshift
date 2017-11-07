@@ -1,3 +1,4 @@
+/*
 resource "aws_cloudwatch_log_group" "openshift" {
     name       = "${var.environment}"
 
@@ -6,3 +7,4 @@ resource "aws_cloudwatch_log_group" "openshift" {
     Name = "provisioner"
   }
 }
+*/

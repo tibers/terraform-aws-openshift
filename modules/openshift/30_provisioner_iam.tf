@@ -88,7 +88,7 @@ EOF
 resource "aws_iam_policy_attachment" "ssm" {
   name       = "${var.environment}_provisioner"
   roles      = ["${aws_iam_role.provisioner.name}"]
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
 }
 
 

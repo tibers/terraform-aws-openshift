@@ -73,7 +73,7 @@ PATTERN
 
 resource "aws_cloudwatch_event_target" "provisioner" {
   rule      = "${aws_cloudwatch_event_rule.openshift_scaleout.name}"
-  arn       = "${aws_ssm_document.openshift.arn}"
+  arn       = "arn:aws:ssm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:document/${aws_ssm_document.openshift.name}"
   role_arn  = "${aws_iam_role.events.arn}"
 
   run_command_targets {
@@ -112,7 +112,7 @@ resource "aws_iam_role_policy" "events" {
       "Sid": "",
       "Effect": "Allow",
       "Action": [
-        "ssm:*"
+        "*"
       ],
       "Resource": "*"
     }

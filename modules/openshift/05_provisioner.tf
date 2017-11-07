@@ -22,7 +22,8 @@ data "template_file" "provisioner" {
     environment   = "${var.environment}"
     public_domain = "${var.public_domain}"
     region        = "${data.aws_region.current.name}"
-    log_group     = "${aws_cloudwatch_log_group.openshift.name}"
+  //  log_group     = "${aws_cloudwatch_log_group.openshift.name}"
+    log_group     = "temp"
   }
 }
 
@@ -36,21 +37,60 @@ resource "aws_ssm_document" "openshift" {
 
   content = <<DOC
   {
-    "schemaVersion": "2.0",
-    "description": "Run cluster provision",
-    "parameters": {
-
-    },
-    "runtimeConfig": {
-      "aws:runShellScript": {
-        "properties": [
-          {
-            "id": "0.aws:runShellScript",
-            "runCommand": ["bash -c 'EC2_INI_PATH=/tmp/inventory/ec2.ini ansible-playbook -i /tmp/inventory /openshift-ansible/playbooks/byo/config.yml'"]
-          }
-        ]
-      }
-    }
-  }
+              "schemaVersion":"2.2",
+              "description":"cross-platform sample",
+              "mainSteps":[
+                  {
+                    "action":"aws:runShellScript",
+                    "name":"Ansible",
+                    "inputs":{
+                        "runCommand":[
+                          "bash -c 'EC2_INI_PATH=/tmp/inventory/ec2.ini ansible-playbook -i /tmp/inventory /openshift-ansible/playbooks/byo/config.yml'"
+                        ]
+                    }
+                  }
+              ]
+}
 DOC
 }
+
+/*
+
+resource "aws_cloudformation_stack" "openshift_ssm_document" {
+  name = "${var.environment}openshiftssmdocument"
+  on_failure = "DELETE"
+  template_body = <<STACK
+{
+    "Resources" : {
+      "${var.environment}openshiftssmdocument" : {
+        "Type" : "AWS::SSM::Document",
+        "Properties" : {
+          "DocumentType" : "Command",
+          "Content" : {
+              "schemaVersion":"2.2",
+              "description":"cross-platform sample",
+              "mainSteps":[
+                  {
+                    "action":"aws:runShellScript",
+                    "name":"Ansible",
+                    "inputs":{
+                        "runCommand":[
+                          "bash -c 'EC2_INI_PATH=/tmp/inventory/ec2.ini ansible-playbook -i /tmp/inventory /openshift-ansible/playbooks/byo/config.yml'"
+                        ]
+                    }
+                  }
+              ]
+          }
+        }
+      }
+    },
+    "Outputs" : {
+      "Name" : {
+        "Description": "Document Name",  
+        "Value" : { "Fn::GetAtt" : [ "${var.environment}openshiftssmdocument", "Arn" ]}
+      }
+    }
+}
+STACK
+}
+*/
