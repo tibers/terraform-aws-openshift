@@ -22,8 +22,7 @@ data "template_file" "provisioner" {
     environment   = "${var.environment}"
     public_domain = "${var.public_domain}"
     region        = "${data.aws_region.current.name}"
-  //  log_group     = "${aws_cloudwatch_log_group.openshift.name}"
-    log_group     = "temp"
+    log_group     = "${var.environment}"
   }
 }
 
