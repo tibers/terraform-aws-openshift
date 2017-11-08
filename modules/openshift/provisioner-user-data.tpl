@@ -87,10 +87,6 @@ write_files:
         CheckHostIP                no
         ForwardAgent               yes
         IdentityFile               /root/.ssh/id_rsa
-  - path: /tmp/user-data-shell
-    content: |
-      #!/bin/bash
-      yum -y --enablerepo=epel install ansible pyOpenSSL
   - path: /etc/amazon/ssm/seelog.xml
     content: |
       <seelog type="adaptive" mininterval="2000000" maxinterval="100000000" critmsgcount="500" minlevel="info">
@@ -111,6 +107,28 @@ write_files:
               <format id="fmtinfo" format="%Date %Time %LEVEL %Msg%n"/>
           </formats>
       </seelog>
+  - path: /bin/provisioner.sh
+    content: |
+      #!/bin/bash
+
+      EC2_INI_PATH=/tmp/inventory/ec2.ini
+
+      if aws sqs receive-message --queue-url ${sqs} --visibility-timeout 0 --region ${region} |grep -i body
+
+      then
+        echo New provision required
+        aws sqs purge-queue --queue-url ${sqs} --region ${region}
+        while pgrep ansible-playbook > /dev/null
+        do
+              sleep 2
+              echo waiting process finish
+        done
+
+        while ansible-playbook -i /tmp/inventory /openshift-ansible/playbooks/byo/config.yml|tee /tmp/provision.log|grep -i "Failure summary"
+        do
+         echo Provison attempt
+        done
+      fi
   - path: /tmp/inventory/ansiblehosts
     content: |
       # Create an OSEv3 group that contains the masters and nodes groups
@@ -159,7 +177,10 @@ runcmd:
   - git clone https://github.com/openshift/openshift-ansible
   - wget -O /tmp/inventory/ec2.py https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py 
   - wget -O /usr/bin/chamber https://github.com/segmentio/chamber/releases/download/v1.9.0/chamber-v1.9.0-linux-amd64 && chmod +x /usr/bin/chamber
+  - ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa&& cat /root/.ssh/id_rsa.pub|chamber write ${environment} provisioner_id_rsa_pub -
   - yum install -y https://s3-${region}.amazonaws.com/amazon-ssm-${region}/latest/linux_amd64/amazon-ssm-agent.rpm && systemctl start amazon-ssm-agent
   - chmod +x /tmp/inventory/ec2.py
-  - ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa&& cat /root/.ssh/id_rsa.pub|chamber write ${environment} provisioner_id_rsa_pub -
-  - bash -li /tmp/user-data-shell
+  - chmod +x /bin/provisioner.sh
+  - curl -O https://bootstrap.pypa.io/get-pip.py && python get-pip.py && pip install awscli
+  - yum -y --enablerepo=epel install ansible pyOpenSSL
+  - aws ssm send-command --document-name ${ssm} --targets Key=tag:Name,Values=provisioner --region ${region}

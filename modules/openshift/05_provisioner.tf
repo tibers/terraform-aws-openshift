@@ -23,6 +23,8 @@ data "template_file" "provisioner" {
     public_domain = "${var.public_domain}"
     region        = "${data.aws_region.current.name}"
     log_group     = "${var.environment}"
+    sqs     = "${aws_sqs_queue.scaling.id}"
+    ssm     = "${aws_ssm_document.openshift.name}"
   }
 }
 
@@ -44,7 +46,7 @@ resource "aws_ssm_document" "openshift" {
                     "name":"Ansible",
                     "inputs":{
                         "runCommand":[
-                          "bash -c 'EC2_INI_PATH=/tmp/inventory/ec2.ini ansible-playbook -i /tmp/inventory /openshift-ansible/playbooks/byo/config.yml'"
+                          "provisioner.sh"
                         ]
                     }
                   }
@@ -52,44 +54,3 @@ resource "aws_ssm_document" "openshift" {
 }
 DOC
 }
-
-/*
-
-resource "aws_cloudformation_stack" "openshift_ssm_document" {
-  name = "${var.environment}openshiftssmdocument"
-  on_failure = "DELETE"
-  template_body = <<STACK
-{
-    "Resources" : {
-      "${var.environment}openshiftssmdocument" : {
-        "Type" : "AWS::SSM::Document",
-        "Properties" : {
-          "DocumentType" : "Command",
-          "Content" : {
-              "schemaVersion":"2.2",
-              "description":"cross-platform sample",
-              "mainSteps":[
-                  {
-                    "action":"aws:runShellScript",
-                    "name":"Ansible",
-                    "inputs":{
-                        "runCommand":[
-                          "bash -c 'EC2_INI_PATH=/tmp/inventory/ec2.ini ansible-playbook -i /tmp/inventory /openshift-ansible/playbooks/byo/config.yml'"
-                        ]
-                    }
-                  }
-              ]
-          }
-        }
-      }
-    },
-    "Outputs" : {
-      "Name" : {
-        "Description": "Document Name",  
-        "Value" : { "Fn::GetAtt" : [ "${var.environment}openshiftssmdocument", "Arn" ]}
-      }
-    }
-}
-STACK
-}
-*/

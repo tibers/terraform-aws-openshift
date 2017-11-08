@@ -5,3 +5,5 @@
 user-data
 02_variables_public_domain*
 crash.log
+.log
+.dump

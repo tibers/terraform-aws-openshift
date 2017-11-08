@@ -55,16 +55,26 @@ resource "aws_iam_role_policy" "provisioner" {
       "Resource": "*"
     },
     {
-      "Sid": "",
       "Effect": "Allow",
       "Action": [
           "ssm:DescribeParameters",
           "ssm:PutParameter",
           "ssm:GetParameters",
-          "ssm:DeleteParameter"
+          "ssm:DeleteParameter",
+          "ssm:SendCommand"
       ],
       "Resource": [
-        "arn:aws:ssm:*:*:*"
+        "*"
+      ]
+    },
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Action": [
+          "sqs:*"
+      ],
+      "Resource": [
+        "${aws_sqs_queue.scaling.arn}"
       ]
     },
     {
