@@ -101,4 +101,21 @@ resource "aws_iam_policy_attachment" "ssm" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
 }
 
+resource "tls_private_key" "provisioner" {
+  algorithm = "RSA"
+}
 
+resource "aws_ssm_parameter" "provisioner" {
+  name  = "${var.environment}.provisioner_id_rsa_pub"
+  type  = "String"
+  value = "${tls_private_key.provisioner.public_key_openssh}"
+  overwrite = "true"
+}
+
+resource "aws_ssm_parameter" "provisione_private" {
+  name  = "${var.environment}.provisioner_id_rsa"
+  type  = "SecureString"
+  value = "${tls_private_key.provisioner.private_key_pem}"
+  overwrite = "true"
+  key_id = "${aws_kms_key.parameter_store.key_id}"
+}

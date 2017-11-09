@@ -29,5 +29,5 @@ write_files:
       echo "Enviroment:" && env
 runcmd:
   - curl -O https://bootstrap.pypa.io/get-pip.py && python get-pip.py && pip install awscli
-  - aws ssm get-parameters --names "${environment}.provisioner_id_rsa_pub" --region ${region} --output text|awk '{print $4}' >> /home/centos/.ssh/authorized_keys
+  - aws ssm get-parameters --names "${environment}.provisioner_id_rsa_pub" --region ${region} --output text|awk '{print $4" "$5" "$6}' >> /home/centos/.ssh/authorized_keys
   - bash -li /tmp/user-data-shell

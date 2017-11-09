@@ -177,11 +177,12 @@ bootcmd:
 runcmd:
   - git clone https://github.com/openshift/openshift-ansible
   - wget -O /tmp/inventory/ec2.py https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py 
-  - wget -O /usr/bin/chamber https://github.com/segmentio/chamber/releases/download/v1.9.0/chamber-v1.9.0-linux-amd64 && chmod +x /usr/bin/chamber
-  - ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa&& cat /root/.ssh/id_rsa.pub|chamber write ${environment} provisioner_id_rsa_pub -
+  - wget -O /bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 && chmod +x /bin/jq
   - yum install -y https://s3-${region}.amazonaws.com/amazon-ssm-${region}/latest/linux_amd64/amazon-ssm-agent.rpm && systemctl start amazon-ssm-agent
   - chmod +x /tmp/inventory/ec2.py
   - chmod +x /bin/provisioner.sh
   - curl -O https://bootstrap.pypa.io/get-pip.py && python get-pip.py && pip install awscli
   - yum -y --enablerepo=epel install ansible pyOpenSSL
+  - ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa && rm -f /root/.ssh/id_rsa.pub
+  - aws ssm get-parameters --names "${environment}.provisioner_id_rsa" --with-decryption --region ${region} --output json|jq -r '.|{Parameters}[][]|.Value'>/root/.ssh/id_rsa
   - aws ssm send-command --document-name ${ssm} --targets Key=tag:Name,Values=provisioner --region ${region}
