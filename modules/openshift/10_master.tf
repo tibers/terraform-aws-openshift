@@ -19,5 +19,6 @@ data "template_file" "master" {
 
   vars {
     environment = "${var.environment}"
+    region        = "${data.aws_region.current.name}"
   }
 }

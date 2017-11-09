@@ -28,6 +28,6 @@ write_files:
       systemctl start NetworkManager && systemctl enable NetworkManager
       echo "Enviroment:" && env
 runcmd:
-  - wget -O /usr/bin/chamber https://github.com/segmentio/chamber/releases/download/v1.9.0/chamber-v1.9.0-linux-amd64 && chmod +x /usr/bin/chamber
-  - chamber read -q ${environment} provisioner_id_rsa_pub >> /home/centos/.ssh/authorized_keys
+  - curl -O https://bootstrap.pypa.io/get-pip.py && python get-pip.py && pip install awscli
+  - aws ssm get-parameters --names "${environment}.provisioner_id_rsa_pub" --region ${region} --output text|awk '{print $4}' >> /home/centos/.ssh/authorized_keys
   - bash -li /tmp/user-data-shell

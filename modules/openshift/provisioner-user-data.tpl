@@ -118,6 +118,7 @@ write_files:
       then
         echo New provision required
         aws sqs purge-queue --queue-url ${sqs} --region ${region}
+        sleep 140
         while pgrep ansible-playbook > /dev/null
         do
               sleep 2
