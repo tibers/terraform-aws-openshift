@@ -11,6 +11,10 @@ resource "aws_launch_configuration" "alc" {
     create_before_destroy = true
   }
 
+  root_block_device {
+    delete_on_termination = true
+  }
+
   security_groups             = ["${var.security_groups}"]
   associate_public_ip_address = "true"
 }
