@@ -1,9 +1,8 @@
 module "openshift" {
   source            = "../modules/openshift"
   subnet_ids        = ["${module.vpc.external_subnets}"]
-  environment       = "${var.environment}"
   vpc_id            = "${module.vpc.id}"
-  instance_key_name = "${aws_key_pair.key.key_name}"
+  admin_ssh_key     = "${var.admin_ssh_key}"
   management_net    = "${chomp(data.http.workstationip.body)}/32"
   public_domain     = "${var.public_domain}"
 }

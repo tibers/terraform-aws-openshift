@@ -7,7 +7,7 @@ module "master" {
   instance_type     = "${var.master_instance_type}"
   instance_profile  = "${aws_iam_instance_profile.master.name}"
   ami               = "${var.master_ami}"
-  instance_key_name = "${var.instance_key_name}"
+  admin_ssh_key     = "${aws_key_pair.admin_key.key_name}"
   user_data         = "${data.template_file.master.rendered}"
   load_balancers    = ["${aws_elb.master.name}"]
   management_net    = "${var.management_net}"

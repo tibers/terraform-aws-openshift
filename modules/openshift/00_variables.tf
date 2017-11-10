@@ -1,5 +1,6 @@
 variable "environment" {
   description = "Environment tag, e.g prod"
+  default     = "default"
 }
 
 variable "vpc_id" {
@@ -11,9 +12,9 @@ variable "subnet_ids" {
   type        = "list"
 }
 
-variable "instance_key_name" {
+variable "admin_ssh_key" {
   description = "Instance key name"
-  default     = "default_instance_key"
+  default     = ""
 }
 
 variable "management_net" {}
@@ -54,4 +55,3 @@ variable "master_name" {
   default = "master"
 }
 
-data "aws_caller_identity" "current" {}

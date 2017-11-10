@@ -7,7 +7,7 @@ module "provisioner" {
   instance_type     = "${var.provisioner_instance_type}"
   instance_profile  = "${aws_iam_instance_profile.provisioner.name}"
   ami               = "${var.provisioner_ami}"
-  instance_key_name = "${var.instance_key_name}"
+  admin_ssh_key     = "${aws_key_pair.admin_key.key_name}"
   load_balancers    = ["${aws_elb.master.name}"]
   user_data         = "${data.template_file.provisioner.rendered}"
   management_net    = "${var.management_net}"

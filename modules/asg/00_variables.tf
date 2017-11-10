@@ -29,7 +29,7 @@ variable "instance_type" {
   default     = "t2.nano"
 }
 
-variable "instance_key_name" {
+variable "admin_ssh_key" {
   description = "Instance key name"
   default     = "default_instance_key"
 }
