@@ -9,7 +9,7 @@ resource "aws_sqs_queue" "scaling" {
 resource "aws_autoscaling_notification" "scaling" {
   group_names = [
     "${module.master.name}",
-    "${module.provisioner.name}"
+    "${module.provisioner.name}",
   ]
 
   notifications = [
@@ -51,7 +51,7 @@ POLICY
 }
 
 resource "aws_cloudwatch_event_rule" "openshift_scaleout" {
-  name = "${var.environment}"
+  name        = "${var.environment}"
   description = "Scsale out"
 
   event_pattern = <<PATTERN
@@ -74,18 +74,17 @@ PATTERN
 }
 
 resource "aws_cloudwatch_event_target" "provisioner" {
-  rule      = "${aws_cloudwatch_event_rule.openshift_scaleout.name}"
-  arn       = "arn:aws:ssm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:document/${aws_ssm_document.openshift.name}"
-  role_arn  = "${aws_iam_role.events.arn}"
+  rule     = "${aws_cloudwatch_event_rule.openshift_scaleout.name}"
+  arn      = "arn:aws:ssm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:document/${aws_ssm_document.openshift.name}"
+  role_arn = "${aws_iam_role.events.arn}"
 
   run_command_targets {
-    key = "tag:Name"
+    key    = "tag:Name"
     values = ["provisioner"]
   }
 }
 
 resource "aws_iam_role" "events" {
-
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",

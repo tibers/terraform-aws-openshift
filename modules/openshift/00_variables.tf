@@ -54,4 +54,3 @@ variable "master_user_data" {
 variable "master_name" {
   default = "master"
 }
-

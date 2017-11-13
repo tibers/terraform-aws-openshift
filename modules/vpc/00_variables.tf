@@ -4,7 +4,7 @@ variable "cidr" {
 }
 
 variable "project" {
-  default     = "default"
+  default = "default"
 }
 
 variable "environment" {

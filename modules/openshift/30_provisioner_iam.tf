@@ -94,7 +94,6 @@ resource "aws_iam_role_policy" "provisioner" {
 EOF
 }
 
-
 resource "aws_iam_policy_attachment" "ssm" {
   name       = "${var.environment}_provisioner"
   roles      = ["${aws_iam_role.provisioner.name}"]
@@ -106,16 +105,16 @@ resource "tls_private_key" "provisioner" {
 }
 
 resource "aws_ssm_parameter" "provisioner" {
-  name  = "${var.environment}.provisioner_id_rsa_pub"
-  type  = "String"
-  value = "${tls_private_key.provisioner.public_key_openssh}"
+  name      = "${var.environment}.provisioner_id_rsa_pub"
+  type      = "String"
+  value     = "${tls_private_key.provisioner.public_key_openssh}"
   overwrite = "true"
 }
 
 resource "aws_ssm_parameter" "provisione_private" {
-  name  = "${var.environment}.provisioner_id_rsa"
-  type  = "SecureString"
-  value = "${tls_private_key.provisioner.private_key_pem}"
+  name      = "${var.environment}.provisioner_id_rsa"
+  type      = "SecureString"
+  value     = "${tls_private_key.provisioner.private_key_pem}"
   overwrite = "true"
-  key_id = "${aws_kms_key.parameter_store.key_id}"
+  key_id    = "${aws_kms_key.parameter_store.key_id}"
 }
