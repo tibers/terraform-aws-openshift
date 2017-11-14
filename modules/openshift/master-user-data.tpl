@@ -28,7 +28,6 @@ write_files:
       systemctl start docker
       systemctl enable docker
       systemctl start NetworkManager && systemctl enable NetworkManager
-      echo "Enviroment:" && env
 runcmd:
   - curl -O https://bootstrap.pypa.io/get-pip.py && python get-pip.py && pip install awscli
   - aws ssm get-parameters --names "${environment}.provisioner_id_rsa_pub" --region ${region} --output text|awk '{print $4" "$5" "$6}' >> /home/centos/.ssh/authorized_keys

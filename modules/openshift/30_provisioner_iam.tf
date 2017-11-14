@@ -88,6 +88,18 @@ resource "aws_iam_role_policy" "provisioner" {
         "kms:Decrypt"
       ],
       "Resource": "arn:aws:kms:*:*:key/${aws_kms_key.parameter_store.id}"
+    },
+    {
+        "Effect": "Allow",
+           "Action": [
+           "logs:CreateLogGroup",
+           "logs:CreateLogStream",
+           "logs:PutLogEvents",
+           "logs:DescribeLogStreams"
+       ],
+         "Resource": [
+           "arn:aws:logs:*:*:*"
+         ]
     }
   ]
 }
