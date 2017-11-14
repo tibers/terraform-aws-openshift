@@ -2,7 +2,7 @@ resource "aws_launch_configuration" "alc" {
   image_id      = "${var.ami}"
   instance_type = "${var.instance_type}"
   key_name      = "${var.admin_ssh_key}"
-  spot_price    = "0.07"
+  spot_price    = "${var.spot_price}"
 
   user_data            = "${var.user_data}"
   iam_instance_profile = "${var.instance_profile}"

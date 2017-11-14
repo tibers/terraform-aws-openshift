@@ -55,27 +55,12 @@ variable "desired_capacity" {
   default     = 1
 }
 
-variable "lb_port" {
-  description = "LB port"
-  default     = 80
-}
-
 variable "load_balancers" {
   description = "Load Balancers to attach the ASG"
   type        = "list"
 }
 
-variable "instance_port" {
-  description = "instance port"
-  default     = 80
-}
-
-variable "healthcheck" {
-  description = "Healthcheck path"
-  default     = "/"
-}
-
-variable "protocol" {
-  description = "Protocol to use, HTTP or TCP"
-  default     = "HTTP"
+variable "spot_price" {
+  description = "Spot market price"
+  default     = "0.1"
 }
