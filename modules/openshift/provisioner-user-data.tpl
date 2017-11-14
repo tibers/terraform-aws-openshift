@@ -5,6 +5,8 @@ yum_repos:
         enabled: false
         gpgcheck: false
         name: Extra Packages for Enterprise Linux 7
+package_update: true
+package_reboot_if_required: false
 packages:
   - wget
   - net-tools 
@@ -125,7 +127,7 @@ write_files:
               echo waiting process finish
         done
 
-        while ansible-playbook -i /tmp/inventory /openshift-ansible/playbooks/byo/config.yml|tee /tmp/provision.log|grep -i "Failure summary"
+        while ansible-playbook -i /tmp/inventory /openshift-ansible/playbooks/byo/config.yml|tee -a /tmp/provision.log|grep -i "Failure summary"
         do
          echo Provison attempt
         done
@@ -175,7 +177,7 @@ write_files:
 bootcmd:
   - mkdir /tmp/inventory
 runcmd:
-  - git clone https://github.com/openshift/openshift-ansible
+  - git clone -b release-3.6 https://github.com/openshift/openshift-ansible
   - wget -O /tmp/inventory/ec2.py https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py 
   - wget -O /bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 && chmod +x /bin/jq
   - yum install -y https://s3-${region}.amazonaws.com/amazon-ssm-${region}/latest/linux_amd64/amazon-ssm-agent.rpm && systemctl start amazon-ssm-agent

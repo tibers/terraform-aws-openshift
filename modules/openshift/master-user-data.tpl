@@ -5,6 +5,8 @@ yum_repos:
         enabled: false
         gpgcheck: false
         name: Extra Packages for Enterprise Linux 7
+package_update: true
+package_reboot_if_required: false
 packages:
   - wget
   - net-tools 
