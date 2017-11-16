@@ -1,7 +1,7 @@
 resource "aws_elb" "master" {
   internal        = "false"
   subnets         = ["${var.subnet_ids}"]
-  security_groups = ["${aws_security_group.default.id}"]
+  security_groups = ["${module.master.sg}"]
 
   listener {
     instance_port     = 8443

@@ -36,10 +36,6 @@ variable "admin_ssh_key" {
 
 variable "user_data" {}
 
-variable "security_groups" {
-  type = "list"
-}
-
 variable "max_size" {
   description = "ASG max size"
   default     = 1
@@ -63,4 +59,9 @@ variable "load_balancers" {
 variable "spot_price" {
   description = "Spot market price"
   default     = "0.1"
+}
+
+variable "management_net" {
+  description = "Trusted management network"
+  default     = "192.168.5.255/32"
 }

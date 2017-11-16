@@ -10,7 +10,6 @@ module "provisioner" {
   admin_ssh_key    = "${aws_key_pair.admin_key.key_name}"
   load_balancers   = ["${aws_elb.master.name}"]
   user_data        = "${data.template_file.provisioner.rendered}"
-  security_groups  = ["${aws_security_group.default.id}"]
 }
 
 data "template_file" "provisioner" {

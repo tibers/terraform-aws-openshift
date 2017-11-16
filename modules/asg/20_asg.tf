@@ -15,7 +15,7 @@ resource "aws_launch_configuration" "alc" {
     delete_on_termination = true
   }
 
-  security_groups             = ["${var.security_groups}"]
+  security_groups             = ["${aws_security_group.default.id}"]
   associate_public_ip_address = "true"
 }
 

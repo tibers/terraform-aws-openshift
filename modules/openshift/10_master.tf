@@ -10,7 +10,6 @@ module "master" {
   admin_ssh_key    = "${aws_key_pair.admin_key.key_name}"
   user_data        = "${data.template_file.master.rendered}"
   load_balancers   = ["${aws_elb.master.name}"]
-  security_groups  = ["${aws_security_group.default.id}"]
 }
 
 data "template_file" "master" {
