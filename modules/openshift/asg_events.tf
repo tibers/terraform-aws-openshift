@@ -9,6 +9,7 @@ resource "aws_sqs_queue" "scaling" {
 resource "aws_autoscaling_notification" "scaling" {
   group_names = [
     "${module.master.name}",
+    "${module.infra.name}",
     "${module.provisioner.name}",
   ]
 
@@ -65,6 +66,7 @@ resource "aws_cloudwatch_event_rule" "openshift_scaleout" {
   "detail": {
     "AutoScalingGroupName": [
       "${module.master.name}",
+      "${module.infra.name}",
       "${module.provisioner.name}"
     ]
   }

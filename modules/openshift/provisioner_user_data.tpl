@@ -147,7 +147,7 @@ write_files:
       ansible_user=centos
       openshift_clock_enabled=true
       openshift_docker_insecure_registries=['172.30.0.0/16']
-      openshift_master_default_subdomain=public.${environment}.${public_domain}
+      openshift_master_default_subdomain=master_${environment}.${public_domain}
       openshift_public_hostname=public.${environment}.${public_domain}
 
       # If ansible_ssh_user is not root, ansible_become must be set to true
@@ -155,22 +155,25 @@ write_files:
 
       openshift_deployment_type=origin
 
-      [tag_aws_autoscaling_groupName_${master}]
+      [tag_aws_autoscaling_groupName_${master_asg_name}]
+
+      [tag_aws_autoscaling_groupName_${infra_asg_name}]
 
       # host group for masters
       [masters:children]
-      tag_aws_autoscaling_groupName_${master}
+      tag_aws_autoscaling_groupName_${master_asg_name}
 
       [masters:vars]
       openshift_schedulable=true
 
       # host group for etcd
       [etcd:children]
-      tag_aws_autoscaling_groupName_${master}
+      tag_aws_autoscaling_groupName_${master_asg_name}
 
       # host group for nodes, includes region info
       [nodes:children]
-      tag_aws_autoscaling_groupName_${master}
+      tag_aws_autoscaling_groupName_${master_asg_name}
+      tag_aws_autoscaling_groupName_${infra_asg_name}
 
       [nodes:vars]
       openshift_node_labels="{'region': 'infra'}"

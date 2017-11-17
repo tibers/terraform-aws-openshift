@@ -32,7 +32,7 @@ variable "provisioner_instance_type" {
 }
 
 variable "provisioner_user_data" {
-  default = "../modules/openshift/provisioner-user-data.tpl"
+  default = "../modules/openshift/provisioner_user_data.tpl"
 }
 
 variable "provisioner_name" {
