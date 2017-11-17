@@ -1,30 +1,6 @@
-resource "aws_iam_instance_profile" "master" {
-  role = "${aws_iam_role.master.name}"
-}
-
-resource "aws_iam_role" "master" {
-  path = "/"
-
-  assume_role_policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Action": "sts:AssumeRole",
-            "Principal": {
-               "Service": "ec2.amazonaws.com"
-            },
-            "Effect": "Allow",
-            "Sid": ""
-        }
-
-    ]
-}
-EOF
-}
-
-resource "aws_iam_role_policy" "master" {
-  role = "${aws_iam_role.master.id}"
+resource "aws_iam_policy" "common" {
+  path        = "/"
+  description = "Common permissions for all nodes"
 
   policy = <<EOF
 {

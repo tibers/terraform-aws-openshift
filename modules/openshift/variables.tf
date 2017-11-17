@@ -48,9 +48,30 @@ variable "master_instance_type" {
 }
 
 variable "master_user_data" {
-  default = "../modules/openshift/master-user-data.tpl"
+  default = "../modules/openshift/node_user_data.tpl"
 }
 
 variable "master_name" {
   default = "master"
 }
+
+//<Infra nodes variables
+
+variable "infra_ami" {
+  default = "ami-0d063c6b"
+}
+
+variable "infra_instance_type" {
+  default = "m4.large"
+}
+
+variable "infra_user_data" {
+  default = "../modules/openshift/node_user_data.tpl"
+}
+
+variable "infra_name" {
+  default = "infra"
+}
+
+//>Infra nodes variables
+
