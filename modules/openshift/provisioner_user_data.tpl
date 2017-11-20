@@ -147,8 +147,8 @@ write_files:
       ansible_user=centos
       openshift_clock_enabled=true
       openshift_docker_insecure_registries=['172.30.0.0/16']
-      openshift_master_default_subdomain=master_${environment}.${public_domain}
-      openshift_public_hostname=public.${environment}.${public_domain}
+      openshift_master_default_subdomain=public.${environment}.${public_domain}
+      openshift_public_hostname=${environment}.${public_domain}
 
       # If ansible_ssh_user is not root, ansible_become must be set to true
       ansible_become=true
