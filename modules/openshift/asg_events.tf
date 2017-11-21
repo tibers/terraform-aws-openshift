@@ -10,6 +10,7 @@ resource "aws_autoscaling_notification" "scaling" {
   group_names = [
     "${module.master.name}",
     "${module.infra.name}",
+    "${module.app.name}",
     "${module.provisioner.name}",
   ]
 
@@ -53,7 +54,7 @@ POLICY
 
 resource "aws_cloudwatch_event_rule" "openshift_scaleout" {
   name        = "${var.environment}"
-  description = "Scsale out"
+  description = "Scale out"
 
   event_pattern = <<PATTERN
 {
@@ -67,6 +68,7 @@ resource "aws_cloudwatch_event_rule" "openshift_scaleout" {
     "AutoScalingGroupName": [
       "${module.master.name}",
       "${module.infra.name}",
+      "${module.app.name}",
       "${module.provisioner.name}"
     ]
   }

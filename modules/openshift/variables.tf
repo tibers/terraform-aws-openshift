@@ -75,3 +75,23 @@ variable "infra_name" {
 
 //>Infra nodes variables
 
+//<app nodes variables
+
+variable "app_ami" {
+  default = "ami-0d063c6b"
+}
+
+variable "app_instance_type" {
+  default = "m4.large"
+}
+
+variable "app_user_data" {
+  default = "../modules/openshift/node_user_data.tpl"
+}
+
+variable "app_name" {
+  default = "app"
+}
+
+//>app nodes variables
+

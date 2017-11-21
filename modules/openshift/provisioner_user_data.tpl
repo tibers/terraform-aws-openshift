@@ -159,12 +159,14 @@ write_files:
 
       [tag_aws_autoscaling_groupName_${infra_asg_name}]
 
+      [tag_aws_autoscaling_groupName_${app_asg_name}]
+
       # host group for masters
       [masters:children]
       tag_aws_autoscaling_groupName_${master_asg_name}
 
       [masters:vars]
-      openshift_schedulable=true
+      //openshift_schedulable=true
 
       # host group for etcd
       [etcd:children]
@@ -173,9 +175,13 @@ write_files:
       # host group for nodes, includes region info
       [nodes:children]
       tag_aws_autoscaling_groupName_${master_asg_name}
+      tag_aws_autoscaling_groupName_${app_asg_name}
+      infra
+
+      [infra:children]
       tag_aws_autoscaling_groupName_${infra_asg_name}
 
-      [nodes:vars]
+      [infra:vars]
       openshift_node_labels="{'region': 'infra'}"
 bootcmd:
   - mkdir /tmp/inventory

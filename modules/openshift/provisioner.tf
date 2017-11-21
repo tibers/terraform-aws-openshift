@@ -19,6 +19,7 @@ data "template_file" "provisioner" {
   vars {
     master_asg_name = "${replace("${module.master.name}", "-", "_")}"
     infra_asg_name  = "${replace("${module.infra.name}", "-", "_")}"
+    app_asg_name    = "${replace("${module.app.name}", "-", "_")}"
     environment     = "${var.environment}"
     public_domain   = "${var.public_domain}"
     region          = "${data.aws_region.current.name}"
