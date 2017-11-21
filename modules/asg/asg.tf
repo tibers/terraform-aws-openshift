@@ -16,7 +16,7 @@ resource "aws_launch_configuration" "alc" {
   }
 
   security_groups             = ["${aws_security_group.default.id}"]
-  associate_public_ip_address = "true"
+  associate_public_ip_address = "${var.associate_public_ip_address}"
 }
 
 resource "aws_autoscaling_group" "asg" {

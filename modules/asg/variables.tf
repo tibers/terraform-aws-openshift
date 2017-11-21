@@ -65,3 +65,8 @@ variable "management_net" {
   description = "Trusted management network"
   default     = "192.168.5.255/32"
 }
+
+variable "associate_public_ip_address" {
+  description = "Public IP mapping True/false"
+  default     = "true"
+}
