@@ -7,7 +7,7 @@ variable "vpc_id" {
   description = "VPC id which will host openshift"
 }
 
-variable "subnet_ids" {
+variable "public_subnet_ids" {
   description = "List of Subnets"
   type        = "list"
 }

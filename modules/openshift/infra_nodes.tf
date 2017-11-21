@@ -1,6 +1,6 @@
 module "infra" {
   source           = "../asg"
-  subnet_ids       = "${var.subnet_ids}"
+  subnet_ids       = "${var.public_subnet_ids}"
   environment      = "${var.environment}"
   name             = "${var.infra_name}"
   vpc_id           = "${var.vpc_id}"

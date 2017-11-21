@@ -1,6 +1,6 @@
 resource "aws_elb" "master" {
   internal        = "false"
-  subnets         = ["${var.subnet_ids}"]
+  subnets         = ["${var.public_subnet_ids}"]
   security_groups = ["${module.master.sg}"]
 
   listener {
