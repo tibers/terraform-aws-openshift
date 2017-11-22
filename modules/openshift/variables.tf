@@ -44,6 +44,11 @@ variable "provisioner_name" {
   default = "provisioner"
 }
 
+//<Master nodes variables
+variable "master_node_count" {
+  default = "1"
+}
+
 variable "master_ami" {
   default = "ami-0d063c6b"
 }
@@ -60,7 +65,13 @@ variable "master_name" {
   default = "master"
 }
 
+//>Master nodes variables
+
 //<Infra nodes variables
+
+variable "infra_node_count" {
+  default = "1"
+}
 
 variable "infra_ami" {
   default = "ami-0d063c6b"
@@ -81,6 +92,10 @@ variable "infra_name" {
 //>Infra nodes variables
 
 //<app nodes variables
+
+variable "app_node_count" {
+  default = "1"
+}
 
 variable "app_ami" {
   default = "ami-0d063c6b"

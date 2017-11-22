@@ -24,8 +24,9 @@ resource "aws_autoscaling_group" "asg" {
   vpc_zone_identifier  = ["${var.subnet_ids}"]
   max_size             = "${var.max_size}"
   min_size             = "${var.min_size}"
-  desired_capacity     = "${var.desired_capacity}"
-  load_balancers       = ["${var.load_balancers}"]
+
+  //desired_capacity     = "${var.desired_capacity}"
+  load_balancers = ["${var.load_balancers}"]
 
   lifecycle {
     create_before_destroy = true

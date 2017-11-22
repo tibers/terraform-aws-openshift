@@ -12,6 +12,8 @@ module "app" {
   load_balancers              = ["${aws_elb.infra.name}"]
   management_net              = "${var.management_net}"
   associate_public_ip_address = "false"
+  min_size                    = "${var.app_node_count}"
+  max_size                    = "${var.app_node_count + 2}"
 }
 
 data "template_file" "app" {

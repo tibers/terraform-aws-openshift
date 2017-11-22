@@ -17,15 +17,17 @@ data "template_file" "provisioner" {
   template = "${file("${var.provisioner_user_data}")}"
 
   vars {
-    master_asg_name = "${replace("${module.master.name}", "-", "_")}"
-    infra_asg_name  = "${replace("${module.infra.name}", "-", "_")}"
-    app_asg_name    = "${replace("${module.app.name}", "-", "_")}"
-    environment     = "${var.environment}"
-    public_domain   = "${var.public_domain}"
-    region          = "${data.aws_region.current.name}"
-    log_group       = "${var.environment}"
-    sqs             = "${aws_sqs_queue.scaling.id}"
-    ssm             = "${aws_ssm_document.openshift.name}"
+    master_asg_name     = "${replace("${module.master.name}", "-", "_")}"
+    infra_asg_name      = "${replace("${module.infra.name}", "-", "_")}"
+    app_asg_name        = "${replace("${module.app.name}", "-", "_")}"
+    environment         = "${var.environment}"
+    public_domain       = "${var.public_domain}"
+    master_public_fqdn  = "${aws_route53_record.master.fqdn}"
+    master_private_fqdn = "${aws_route53_record.internal_master.fqdn}"
+    region              = "${data.aws_region.current.name}"
+    log_group           = "${var.environment}"
+    sqs                 = "${aws_sqs_queue.scaling.id}"
+    ssm                 = "${aws_ssm_document.openshift.name}"
   }
 }
 

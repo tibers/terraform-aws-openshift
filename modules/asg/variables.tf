@@ -46,10 +46,12 @@ variable "min_size" {
   default     = 1
 }
 
+/* Getting rid of static ASG
 variable "desired_capacity" {
   description = "ASG desired capacity"
   default     = 1
 }
+*/
 
 variable "load_balancers" {
   description = "Load Balancers to attach the ASG"

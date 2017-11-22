@@ -1,6 +1,10 @@
 // Master external API endpoint
-output "master_endpoint" {
-  value = "https://${var.environment}.${var.public_domain}:8443"
+output "public_master_endpoint" {
+  value = "https://${aws_route53_record.master.fqdn}:8443"
+}
+
+output "private_master_endpoint" {
+  value = "https://${aws_route53_record.internal_master.fqdn}:8443"
 }
 
 //Public router

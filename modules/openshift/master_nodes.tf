@@ -9,9 +9,11 @@ module "master" {
   ami                         = "${var.master_ami}"
   admin_ssh_key               = "${aws_key_pair.admin_key.key_name}"
   user_data                   = "${data.template_file.master.rendered}"
-  load_balancers              = ["${aws_elb.master.name}"]
+  load_balancers              = ["${aws_elb.master.name}", "${aws_elb.internal_master.name}"]
   management_net              = "${var.management_net}"
   associate_public_ip_address = "false"
+  min_size                    = "${var.master_node_count}"
+  max_size                    = "${var.master_node_count + 2}"
 }
 
 data "template_file" "master" {

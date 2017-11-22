@@ -25,3 +25,15 @@ resource "aws_route53_record" "master" {
     evaluate_target_health = false
   }
 }
+
+resource "aws_route53_record" "internal_master" {
+  zone_id = "${data.aws_route53_zone.selected.zone_id}"
+  name    = "${var.environment}_internal.${data.aws_route53_zone.selected.name}"
+  type    = "A"
+
+  alias {
+    name                   = "${aws_elb.internal_master.dns_name}"
+    zone_id                = "${aws_elb.master.zone_id}"
+    evaluate_target_health = false
+  }
+}

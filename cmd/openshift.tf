@@ -6,4 +6,7 @@ module "openshift" {
   admin_ssh_key      = "${var.admin_ssh_key}"
   management_net     = "${chomp(data.http.workstationip.body)}/32"
   public_domain      = "${var.public_domain}"
+  app_node_count     = "1"
+  infra_node_count   = "1"
+  master_node_count  = "1"
 }

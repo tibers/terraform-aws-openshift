@@ -147,8 +147,11 @@ write_files:
       ansible_user=centos
       openshift_clock_enabled=true
       openshift_docker_insecure_registries=['172.30.0.0/16']
-      openshift_master_default_subdomain=public.${environment}.${public_domain}
-      openshift_public_hostname=${environment}.${public_domain}
+      openshift_master_default_subdomain=public.${master_public_fqdn}
+      openshift_public_hostname=${master_public_fqdn}
+      openshift_master_cluster_method=native
+      openshift_master_cluster_hostname=${master_private_fqdn}
+      openshift_master_cluster_public_hostname=${master_public_fqdn}
       
       #Schedule only on nodes with below label
       osm_default_node_selector='app=true'
