@@ -149,6 +149,9 @@ write_files:
       openshift_docker_insecure_registries=['172.30.0.0/16']
       openshift_master_default_subdomain=public.${environment}.${public_domain}
       openshift_public_hostname=${environment}.${public_domain}
+      
+      #Schedule only on nodes with below label
+      osm_default_node_selector='app=true'
 
       # If ansible_ssh_user is not root, ansible_become must be set to true
       ansible_become=true
@@ -166,7 +169,7 @@ write_files:
       tag_aws_autoscaling_groupName_${master_asg_name}
 
       [masters:vars]
-      //openshift_schedulable=true
+      #openshift_schedulable=true
 
       # host group for etcd
       [etcd:children]
@@ -175,14 +178,20 @@ write_files:
       # host group for nodes, includes region info
       [nodes:children]
       tag_aws_autoscaling_groupName_${master_asg_name}
-      tag_aws_autoscaling_groupName_${app_asg_name}
       infra
+      app
 
       [infra:children]
       tag_aws_autoscaling_groupName_${infra_asg_name}
 
       [infra:vars]
       openshift_node_labels="{'region': 'infra'}"
+
+      [app:children]
+      tag_aws_autoscaling_groupName_${app_asg_name}
+
+      [app:vars]
+      openshift_node_labels="{'app': 'true'}"
 bootcmd:
   - mkdir /tmp/inventory
 runcmd:
