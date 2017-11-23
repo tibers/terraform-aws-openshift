@@ -115,3 +115,45 @@ variable "app_name" {
 
 //>app nodes variables
 
+//<Ports definitions for masters
+
+variable "allowed_ports_tcp_from_master_to_master" {
+  default = ["53", "8053", "2049", "2379", "2380", "4001", "8443"]
+}
+
+variable "allowed_ports_udp_from_master_to_master" {
+  default = ["53", "8053", "2049"]
+}
+
+variable "allowed_ports_tcp_from_node_to_master" {
+  default = ["53", "8053", "443", "8443"]
+}
+
+variable "allowed_ports_udp_from_node_to_master" {
+  default = ["53", "8053"]
+}
+
+//>
+
+variable "allowed_ovs_port_inside_cluster" {
+  default = "4789"
+}
+
+//<Ports definitions for app nodes
+
+variable "allowed_ports_tcp_from_master_inside_cluster" {
+  default = ["10250"]
+}
+
+//>
+
+//<Ports definitions for infra nodes
+
+variable "allowed_ports_tcp_from_public_to_infra" {
+  default = ["80", "443"]
+
+  //default = []
+}
+
+//>
+

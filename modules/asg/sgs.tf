@@ -20,15 +20,6 @@ resource "aws_security_group_rule" "allow_egress_all" {
   security_group_id = "${aws_security_group.default.id}"
 }
 
-resource "aws_security_group_rule" "allow_all_ingress_self" {
-  type              = "ingress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  self              = true
-  security_group_id = "${aws_security_group.default.id}"
-}
-
 resource "aws_security_group_rule" "ssh_management" {
   type              = "ingress"
   from_port         = 0
