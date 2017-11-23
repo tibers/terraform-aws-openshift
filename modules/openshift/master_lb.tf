@@ -10,20 +10,6 @@ resource "aws_elb" "master" {
     lb_protocol       = "tcp"
   }
 
-  listener {
-    instance_port     = 2379
-    instance_protocol = "tcp"
-    lb_port           = 2379
-    lb_protocol       = "tcp"
-  }
-
-  listener {
-    instance_port     = 2380
-    instance_protocol = "tcp"
-    lb_port           = 2380
-    lb_protocol       = "tcp"
-  }
-
   health_check {
     healthy_threshold   = 2
     unhealthy_threshold = 2
@@ -52,20 +38,6 @@ resource "aws_elb" "internal_master" {
     instance_port     = 8443
     instance_protocol = "tcp"
     lb_port           = 8443
-    lb_protocol       = "tcp"
-  }
-
-  listener {
-    instance_port     = 2379
-    instance_protocol = "tcp"
-    lb_port           = 2379
-    lb_protocol       = "tcp"
-  }
-
-  listener {
-    instance_port     = 2380
-    instance_protocol = "tcp"
-    lb_port           = 2380
     lb_protocol       = "tcp"
   }
 
