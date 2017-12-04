@@ -1,5 +1,6 @@
 module "app" {
-  source                      = "github.com/odzhu/terralib-aws-asg"
+  source                      = "odzhu/asg/aws"
+  version                     = "1.0.1"
   subnet_ids                  = "${var.private_subnet_ids}"
   environment                 = "${var.environment}"
   name                        = "${var.app_name}"

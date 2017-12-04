@@ -1,5 +1,6 @@
 module "openshift" {
   source             = "odzhu/openshift/aws"
+  version            = "1.0.3"
   public_subnet_ids  = ["${module.vpc.external_subnets}"]
   private_subnet_ids = ["${module.vpc.internal_subnets}"]
   vpc_id             = "${module.vpc.id}"
