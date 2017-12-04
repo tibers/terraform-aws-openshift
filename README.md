@@ -1,4 +1,4 @@
-# terralib-openshift 
+# terraform-aws-openshift 
 
 Autoscaling OpenShift Terraform module
 
