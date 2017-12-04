@@ -37,7 +37,7 @@ variable "provisioner_instance_type" {
 }
 
 variable "provisioner_user_data" {
-  default = "../modules/openshift/provisioner_user_data.tpl"
+  default = "provisioner_user_data.tpl"
 }
 
 variable "provisioner_name" {
@@ -58,7 +58,7 @@ variable "master_instance_type" {
 }
 
 variable "master_user_data" {
-  default = "../modules/openshift/node_user_data.tpl"
+  default = "node_user_data.tpl"
 }
 
 variable "master_name" {
@@ -82,7 +82,7 @@ variable "infra_instance_type" {
 }
 
 variable "infra_user_data" {
-  default = "../modules/openshift/node_user_data.tpl"
+  default = "node_user_data.tpl"
 }
 
 variable "infra_name" {
@@ -106,7 +106,7 @@ variable "app_instance_type" {
 }
 
 variable "app_user_data" {
-  default = "../modules/openshift/node_user_data.tpl"
+  default = "node_user_data.tpl"
 }
 
 variable "app_name" {

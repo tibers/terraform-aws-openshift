@@ -1,5 +1,5 @@
 module "app" {
-  source                      = "../asg"
+  source                      = "github.com/odzhu/terralib-aws-asg"
   subnet_ids                  = "${var.private_subnet_ids}"
   environment                 = "${var.environment}"
   name                        = "${var.app_name}"
@@ -17,7 +17,7 @@ module "app" {
 }
 
 data "template_file" "app" {
-  template = "${file("${var.app_user_data}")}"
+  template = "${file("${path.module}/${var.app_user_data}")}"
 
   vars {
     environment = "${var.environment}"

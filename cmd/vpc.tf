@@ -1,3 +1,3 @@
 module "vpc" {
-  source = "../modules/vpc"
+  source = "github.com/odzhu/terralib-aws-vpc"
 }

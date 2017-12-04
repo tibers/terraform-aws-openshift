@@ -1,5 +1,5 @@
 module "master" {
-  source                      = "../asg"
+  source                      = "github.com/odzhu/terralib-aws-asg"
   subnet_ids                  = "${var.private_subnet_ids}"
   environment                 = "${var.environment}"
   name                        = "${var.master_name}"
@@ -17,7 +17,7 @@ module "master" {
 }
 
 data "template_file" "master" {
-  template = "${file("${var.master_user_data}")}"
+  template = "${file("${path.module}/${var.master_user_data}")}"
 
   vars {
     environment = "${var.environment}"

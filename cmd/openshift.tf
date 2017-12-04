@@ -1,5 +1,5 @@
 module "openshift" {
-  source             = "../modules/openshift"
+  source             = ".."
   public_subnet_ids  = ["${module.vpc.external_subnets}"]
   private_subnet_ids = ["${module.vpc.internal_subnets}"]
   vpc_id             = "${module.vpc.id}"

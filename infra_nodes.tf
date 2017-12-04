@@ -1,5 +1,5 @@
 module "infra" {
-  source                      = "../asg"
+  source                      = "github.com/odzhu/terralib-aws-asg"
   subnet_ids                  = "${var.private_subnet_ids}"
   environment                 = "${var.environment}"
   name                        = "${var.infra_name}"
@@ -17,7 +17,7 @@ module "infra" {
 }
 
 data "template_file" "infra" {
-  template = "${file("${var.infra_user_data}")}"
+  template = "${file("${path.module}/${var.infra_user_data}")}"
 
   vars {
     environment = "${var.environment}"

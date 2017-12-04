@@ -1,5 +1,5 @@
 module "provisioner" {
-  source           = "../asg"
+  source           = "github.com/odzhu/terralib-aws-asg"
   subnet_ids       = "${var.public_subnet_ids}"
   environment      = "${var.environment}"
   name             = "${var.provisioner_name}"
@@ -14,7 +14,7 @@ module "provisioner" {
 }
 
 data "template_file" "provisioner" {
-  template = "${file("${var.provisioner_user_data}")}"
+  template = "${file("${path.module}/${var.provisioner_user_data}")}"
 
   vars {
     master_asg_name     = "${replace("${module.master.name}", "-", "_")}"

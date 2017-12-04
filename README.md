@@ -1,22 +1,18 @@
-# terralib 
+# terralib-openshift 
 
-Yet another terraform library 
+Autoscaling OpenShift Terraform module
+
+## Features
+* 100% native ansible provisioning method, using AWS dynamic inventory.
+* Module allows size your claster from 1 to 300 nodes, any Openshift component: Masters, Infra and App nodes implemented as Auto Scaling groups
 
 ### Prerequesites
 * AWS account configured
+* Previously created Route53 hosted zone (will be used for environment dns names creation)
 * terraform v0.11+
 * curl
 
-### Modules 
-* AWS VPC
-* AWS Auto Scaling Group
-* AWS Openshift Origin
-
-
-### How to
-Pending...
-
-## Example
+## Usage
 
 The below example deploys multi AZ OpenShift Origin with autoscaling enabled
 
