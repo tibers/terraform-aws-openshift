@@ -1,6 +1,6 @@
 # terraform-aws-openshift 
 
-Autoscaling OpenShift Terraform module
+Autoscaling OpenShift Terraform module for AWS
 
 ## Features
 * 100% native ansible provisioning method, using AWS dynamic inventory.
