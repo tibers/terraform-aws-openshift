@@ -1,10 +1,4 @@
 #cloud-config
-yum_repos:
-    epel:
-        baseurl: http://download.fedoraproject.org/pub/epel/testing/7/$basearch
-        enabled: false
-        gpgcheck: false
-        name: Extra Packages for Enterprise Linux 7
 package_update: true
 package_reboot_if_required: false
 packages:
@@ -18,8 +12,11 @@ packages:
   - sos 
   - psacct 
   - git
+  - pyOpenSSL
+  - ansible
+
 write_files:
-  - path: /tmp/inventory/ec2.ini
+  - path: /var/provisioner/ec2.ini
     content: |
       [ec2]
 
@@ -113,7 +110,7 @@ write_files:
     content: |
       #!/bin/bash
 
-      EC2_INI_PATH=/tmp/inventory/ec2.ini
+      EC2_INI_PATH=/var/provisioner/ec2.ini
 
       if aws sqs receive-message --queue-url ${sqs} --visibility-timeout 0 --region ${region} |grep -i body
 
@@ -127,12 +124,12 @@ write_files:
               echo waiting process finish
         done
 
-        while ansible-playbook -i /tmp/inventory /openshift-ansible/playbooks/byo/config.yml|tee -a /tmp/provision.log|grep -i "Failure summary"
+        while ansible-playbook -i /var/provisioner /openshift-ansible/playbooks/byo/config.yml|tee -a /var/provisioner/provisioner.log|grep -i "Failure summary"
         do
          echo Provison attempt
         done
       fi
-  - path: /tmp/inventory/ansiblehosts
+  - path: /var/provisioner/ansiblehosts
     content: |
       # Create an OSEv3 group that contains the masters and nodes groups
       [OSEv3:children]
@@ -196,16 +193,14 @@ write_files:
       [app:vars]
       openshift_node_labels="{'app': 'true'}"
 bootcmd:
-  - mkdir /tmp/inventory
+  - mkdir /var/provisioner
 runcmd:
   - git clone -b release-3.6 https://github.com/openshift/openshift-ansible
-  - wget -O /tmp/inventory/ec2.py https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py 
+  - wget -O /var/provisioner/ec2.py https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py 
   - wget -O /bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 && chmod +x /bin/jq
   - yum install -y https://s3-${region}.amazonaws.com/amazon-ssm-${region}/latest/linux_amd64/amazon-ssm-agent.rpm && systemctl start amazon-ssm-agent && systemctl enable amazon-ssm-agent
-  - chmod +x /tmp/inventory/ec2.py
-  - chmod +x /bin/provisioner.sh
+  - chmod +x /var/provisioner/ec2.py /bin/provisioner.sh
   - curl -O https://bootstrap.pypa.io/get-pip.py && python get-pip.py && pip install awscli
-  - yum -y --enablerepo=epel install ansible pyOpenSSL
   - ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa && rm -f /root/.ssh/id_rsa.pub
   - aws ssm get-parameters --names "${environment}.provisioner_id_rsa" --with-decryption --region ${region} --output json|jq -r '.|{Parameters}[][]|.Value'>/root/.ssh/id_rsa
   - aws ssm send-command --document-name ${ssm} --targets Key=tag:Name,Values=provisioner --region ${region}
