@@ -1,6 +1,6 @@
 module "infra" {
   source                      = "odzhu/asg/aws"
-  version                     = "1.0.1"
+  version                     = "1.0.4"
   subnet_ids                  = "${var.private_subnet_ids}"
   environment                 = "${var.environment}"
   name                        = "${var.infra_name}"

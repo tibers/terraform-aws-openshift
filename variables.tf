@@ -33,7 +33,7 @@ variable "provisioner_ami" {
 }
 
 variable "provisioner_instance_type" {
-  default = "m4.large"
+  default = "m3.large"
 }
 
 variable "provisioner_user_data" {
@@ -54,7 +54,7 @@ variable "master_ami" {
 }
 
 variable "master_instance_type" {
-  default = "m4.large"
+  default = "m3.large"
 }
 
 variable "master_user_data" {
@@ -78,7 +78,7 @@ variable "infra_ami" {
 }
 
 variable "infra_instance_type" {
-  default = "m4.large"
+  default = "m3.large"
 }
 
 variable "infra_user_data" {
@@ -102,7 +102,7 @@ variable "app_ami" {
 }
 
 variable "app_instance_type" {
-  default = "m4.large"
+  default = "m3.large"
 }
 
 variable "app_user_data" {
