@@ -7,5 +7,5 @@ phases:
       - echo "===============" && env
       - echo "===============" && ls -l
       - echo "===============" && pwd
-      - echo "====Execute====" && cd cmd && terraform init && terraform get && terraform plan
+      - echo "====Execute====" && cd cmd && terraform get && terraform init && terraform plan
     
