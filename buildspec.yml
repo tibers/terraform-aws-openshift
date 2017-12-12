@@ -3,7 +3,9 @@ version: 0.2
 phases:
   build:
     commands:
-      - ps -ef
-      - docker ps -a 
-      - cd cmd && terraform plan
+      - echo "===============" && ps -ef
+      - echo "===============" && env
+      - echo "===============" && ls -l
+      - echo "===============" && pwd
+      - echo "====Execute====" && cd cmd && terraform plan
     
