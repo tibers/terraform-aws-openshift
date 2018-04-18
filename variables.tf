@@ -44,6 +44,10 @@ variable "provisioner_name" {
   default = "provisioner"
 }
 
+variable "provisioner_spot_price" {
+  default = "0.10"
+}
+
 //<Master nodes variables
 variable "master_node_count" {
   default = "1"
