@@ -206,3 +206,4 @@ runcmd:
   - ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa && rm -f /root/.ssh/id_rsa.pub
   - aws ssm get-parameters --names "${environment}.provisioner_id_rsa" --with-decryption --region ${region} --output json|jq -r '.|{Parameters}[][]|.Value'>/root/.ssh/id_rsa
   - aws ssm send-command --document-name ${ssm} --targets Key=tag:Name,Values=provisioner --region ${region}
+  - /bin/provisioner.sh
