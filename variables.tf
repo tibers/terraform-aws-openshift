@@ -65,6 +65,10 @@ variable "master_name" {
   default = "master"
 }
 
+variable "master_spot_price" {
+  default = "0.10"
+}
+
 //>Master nodes variables
 
 //<Infra nodes variables
@@ -89,6 +93,10 @@ variable "infra_name" {
   default = "infra"
 }
 
+variable "infra_spot_price" {
+  default = "0.10"
+}
+
 //>Infra nodes variables
 
 //<app nodes variables
@@ -111,6 +119,10 @@ variable "app_user_data" {
 
 variable "app_name" {
   default = "app"
+}
+
+variable "app_spot_price" {
+  default = "0.10"
 }
 
 //>app nodes variables
