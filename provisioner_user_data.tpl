@@ -198,12 +198,12 @@ write_files:
 bootcmd:
   - mkdir /var/provisioner
 runcmd:
-  - git clone -b release-3.9 https://github.com/openshift/openshift-ansible
+  - git clone -b release-3.8 https://github.com/openshift/openshift-ansible
   - wget -O /var/provisioner/ec2.py https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py 
   - wget -O /bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 && chmod +x /bin/jq
   - yum install -y https://s3-${region}.amazonaws.com/amazon-ssm-${region}/latest/linux_amd64/amazon-ssm-agent.rpm && systemctl start amazon-ssm-agent && systemctl enable amazon-ssm-agent
   - chmod +x /var/provisioner/ec2.py /bin/provisioner.sh
-  - curl -O https://bootstrap.pypa.io/get-pip.py && python get-pip.py && pip install awscli && pip2 install boto
+  - curl -O https://bootstrap.pypa.io/get-pip.py && python get-pip.py && pip install awscli boto boto3 && pip2 install awscli boto boto3
   - ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa && rm -f /root/.ssh/id_rsa.pub
   - aws ssm get-parameters --names "${environment}.provisioner_id_rsa" --with-decryption --region ${region} --output json|jq -r '.|{Parameters}[][]|.Value'>/root/.ssh/id_rsa
   - aws ssm send-command --document-name ${ssm} --targets Key=tag:Name,Values=provisioner --region ${region}
