@@ -138,7 +138,6 @@ write_files:
       masters
       nodes
       etcd
-      new_nodes
 
       # Set variables common for all OSEv3 hosts
       [OSEv3:vars]
@@ -152,6 +151,7 @@ write_files:
       openshift_master_cluster_method=native
       openshift_master_cluster_hostname=${master_private_fqdn}
       openshift_master_cluster_public_hostname=${master_public_fqdn}
+      openshift_schedulable=true
       
       #Schedule only on nodes with below label
       osm_default_node_selector='app=true'
@@ -169,10 +169,10 @@ write_files:
 
       # host group for masters
       [masters:children]
-      tag_aws_autoscaling_groupName_${master_asg_name}
+      tag_aws_autoscaling_groupName_${master_asg_name} 
 
       [masters:vars]
-      #openshift_schedulable=true
+      # openshift_schedulable=true
 
       # host group for etcd
       [etcd:children]
