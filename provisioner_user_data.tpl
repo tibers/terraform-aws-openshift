@@ -16,6 +16,8 @@ packages:
   - git
   - pyOpenSSL
   - ansible
+  - python-docker-py 
+  - skopeo
 
 write_files:
   - path: /var/provisioner/ec2.ini
