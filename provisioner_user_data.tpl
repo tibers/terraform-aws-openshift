@@ -132,7 +132,7 @@ write_files:
         #do
         # echo Provison attempt
         #done
-        ansible-playbook -i /var/provisioner /openshift-ansible/playbooks/prerequisites.yml|tee -a /var/provisioner/provisioner.log && ansible-playbook -i /var/provisioner /openshift-ansible/playbooks/deploy_cluster.yml|tee -a /var/provisioner/provisioner.log
+        ansible-playbook -i /var/provisioner /openshift-ansible/playbooks/prerequisites.yml >> /var/provisioner/provisioner.log && ansible-playbook -i /var/provisioner /openshift-ansible/playbooks/deploy_cluster.yml >> /var/provisioner/provisioner.log
       fi
   - path: /var/provisioner/ansiblehosts
     content: |
