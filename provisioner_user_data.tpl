@@ -33,8 +33,8 @@ write_files:
 #      destination_variable = Name
 #      vpc_destination_variable = Name
 #      hotname_variable = Name
-      pattern_include = openshift*
-#      instance_filters = tag:Name=openshift*
+#      pattern_include = openshift*
+      instance_filters = tag:Name=openshift*
 
       route53 = False
       all_instances = False
