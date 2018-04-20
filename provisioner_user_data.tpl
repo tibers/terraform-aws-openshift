@@ -30,6 +30,11 @@ write_files:
       destination_variable = private_dns_name
       vpc_destination_variable = private_ip_address
       hostname_variable = private_dns_name
+#      destination_variable = Name
+#      vpc_destination_variable = Name
+#      hotname_variable = Name
+      pattern_include = openshift*
+      instance_filters = tag:Name=openshift*
 
       route53 = False
       all_instances = False
@@ -155,6 +160,7 @@ write_files:
       openshift_master_cluster_hostname=${master_private_fqdn}
       openshift_master_cluster_public_hostname=${master_public_fqdn}
       openshift_schedulable=true
+      openshift_web_console_nodeselector={"region": "infra"}
       
       #Schedule only on nodes with below label
       osm_default_node_selector='app=true'
