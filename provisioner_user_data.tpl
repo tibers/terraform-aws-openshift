@@ -30,10 +30,10 @@ write_files:
       destination_variable = private_dns_name
       vpc_destination_variable = private_ip_address
       hostname_variable = private_dns_name
-#      destination_variable = Name
-#      vpc_destination_variable = Name
-#      hotname_variable = Name
-#      pattern_include = openshift*
+      #      destination_variable = Name
+      #      vpc_destination_variable = Name
+      #      hotname_variable = Name
+      #      pattern_include = openshift*
       instance_filters = tag:Name=openshift*
 
       route53 = False
