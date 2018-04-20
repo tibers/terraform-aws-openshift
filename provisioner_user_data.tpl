@@ -201,7 +201,7 @@ write_files:
 bootcmd:
   - mkdir /var/provisioner
 runcmd:
-  - git clone -b release-3.8 https://github.com/openshift/openshift-ansible
+  - git clone -b release-3.9 https://github.com/openshift/openshift-ansible
   - wget -O /var/provisioner/ec2.py https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py 
   - wget -O /bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 && chmod +x /bin/jq
   - yum install -y https://s3-${region}.amazonaws.com/amazon-ssm-${region}/latest/linux_amd64/amazon-ssm-agent.rpm && systemctl start amazon-ssm-agent && systemctl enable amazon-ssm-agent
