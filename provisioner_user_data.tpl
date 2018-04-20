@@ -24,7 +24,7 @@ write_files:
     content: |
       [ec2]
 
-      regions = all
+      regions = us-east-1
       regions_exclude = us-gov-west-1, cn-north-1
 
       destination_variable = private_dns_name
