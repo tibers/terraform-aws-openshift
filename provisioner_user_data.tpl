@@ -133,10 +133,13 @@ write_files:
               echo waiting process finish
         done
 
+        # This is only suitable for 3.7 and prior
         #while ansible-playbook -i /var/provisioner /openshift-ansible/playbooks/byo/config.yml|tee -a /var/provisioner/provisioner.log|grep -i "Failure summary"
         #do
         # echo Provison attempt
         #done
+ 
+        # 3.9 magic - note that this may need to be run several times.
         ansible-playbook -i /var/provisioner /openshift-ansible/playbooks/prerequisites.yml >> /var/provisioner/provisioner.log && ansible-playbook -i /var/provisioner /openshift-ansible/playbooks/deploy_cluster.yml >> /var/provisioner/provisioner.log
       fi
   - path: /var/provisioner/ansiblehosts
@@ -163,7 +166,7 @@ write_files:
       openshift_web_console_nodeselector={"region": "infra"}
       
       #Schedule only on nodes with below label
-      osm_default_node_selector='app=true'
+      #osm_default_node_selector='app=true'
 
       # If ansible_ssh_user is not root, ansible_become must be set to true
       ansible_become=true
