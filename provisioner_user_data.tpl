@@ -210,6 +210,8 @@ write_files:
 bootcmd:
   - mkdir /var/provisioner
 runcmd:
+  - mkfs.xfs /dev/nvme1n1
+  - mount -a
   - git clone -b release-3.9 https://github.com/openshift/openshift-ansible
   - wget -O /var/provisioner/ec2.py https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py 
   - wget -O /bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 && chmod +x /bin/jq

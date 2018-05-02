@@ -31,6 +31,8 @@ write_files:
       systemctl enable docker
       systemctl start NetworkManager && systemctl enable NetworkManager
 runcmd:
+  - mkfs.xfs /dev/nvme1n1
+  - mount -a
   - curl -O https://bootstrap.pypa.io/get-pip.py && python get-pip.py && pip install awscli && pip2 install boto
   - aws ssm get-parameters --names "${environment}.provisioner_id_rsa_pub" --region ${region} --output text|awk '{print $4" "$5" "$6}' >> /home/centos/.ssh/authorized_keys
   - bash -li /tmp/user-data-shell
