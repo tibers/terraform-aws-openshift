@@ -1,6 +1,6 @@
 #cloud-config
 mounts:
-  - [ /dev/xvdc, /var/lib/docker, auto, "defaults,noexec", "0", "0" ]
+  - [ nvme1n1, /var/lib/docker, auto, "defaults,noexec", "0", "0" ]
 package_update: true
 package_reboot_if_required: false
 packages:

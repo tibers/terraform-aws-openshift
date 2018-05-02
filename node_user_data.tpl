@@ -1,6 +1,6 @@
 #cloud-config
 mounts:
-    - [ /dev/xvdc, /var/lib/docker, auto, "defaults,noexec", "0", "0" ]
+    - [ /dev/nvme1n1, /var/lib/docker, auto, "defaults,noexec", "0", "0" ]
 yum_repos:
     epel:
         baseurl: http://download.fedoraproject.org/pub/epel/testing/7/$basearch
