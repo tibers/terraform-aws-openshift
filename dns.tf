@@ -4,7 +4,7 @@ data "aws_route53_zone" "selected" {
 
 resource "aws_route53_record" "publicrouter" {
   zone_id = "${data.aws_route53_zone.selected.zone_id}"
-  name    = "*.public.${var.environment}.${data.aws_route53_zone.selected.name}"
+  name    = "${local.dns_public_router}"
   type    = "A"
 
   alias {
@@ -16,7 +16,7 @@ resource "aws_route53_record" "publicrouter" {
 
 resource "aws_route53_record" "master" {
   zone_id = "${data.aws_route53_zone.selected.zone_id}"
-  name    = "${var.environment}.${data.aws_route53_zone.selected.name}"
+  name    = "${local.dns_master}"
   type    = "A"
 
   alias {
@@ -28,7 +28,7 @@ resource "aws_route53_record" "master" {
 
 resource "aws_route53_record" "internal_master" {
   zone_id = "${data.aws_route53_zone.selected.zone_id}"
-  name    = "${var.environment}_internal.${data.aws_route53_zone.selected.name}"
+  name    = "${local.dns_master_internal}"
   type    = "A"
 
   alias {

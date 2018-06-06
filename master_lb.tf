@@ -4,10 +4,11 @@ resource "aws_elb" "master" {
   security_groups = ["${module.master.sg}"]
 
   listener {
-    instance_port     = 8443
-    instance_protocol = "tcp"
-    lb_port           = 8443
-    lb_protocol       = "tcp"
+    instance_port      = 8443
+    instance_protocol  = "https"
+    lb_port            = 8443
+    lb_protocol        = "https"
+    ssl_certificate_id = "${aws_acm_certificate.public_cert.arn}"
   }
 
   health_check {
