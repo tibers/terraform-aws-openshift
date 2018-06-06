@@ -34,7 +34,7 @@ write_files:
       #      vpc_destination_variable = Name
       #      hotname_variable = Name
       #      pattern_include = openshift*
-      instance_filters = tag:Name=openshift*
+      instance_filters = tag:Environment=${environment}
 
       route53 = False
       all_instances = False
@@ -221,4 +221,6 @@ runcmd:
   - ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa && rm -f /root/.ssh/id_rsa.pub
   - aws ssm get-parameters --names "${environment}.provisioner_id_rsa" --with-decryption --region ${region} --output json|jq -r '.|{Parameters}[][]|.Value'>/root/.ssh/id_rsa
   - aws ssm send-command --document-name ${ssm} --targets Key=tag:Name,Values=provisioner --region ${region}
+  - echo Make sure we have Ansible 2.4.3
+  - rpm -Uvh https://releases.ansible.com/ansible/rpm/release/epel-7-x86_64/ansible-2.4.3.0-1.el7.ans.noarch.rpm
   - /bin/provisioner.sh
